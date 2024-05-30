@@ -20,13 +20,14 @@ public class TestClient {
             // Test de la méthode consulterStock
             Article article = gestionStock.consulterStock("REF001");
             if (article != null) {
-                System.out.println("Article trouvé : " + article.getReference() + ", Quantité en stock : " + article.getQuantiteEnStock());
+                System.out.println("Article trouvé : " + article.getReference() + ", Quantité en stock : " + article.getStock());
             } else {
                 System.out.println("Article non trouvé.");
             }
 
             // Test de la méthode ajouterProduit
-            gestionStock.ajouterProduit("REF001", 10);
+            // A MODIFIER
+            gestionStock.ajouterProduit("REF002", 10);
             System.out.println("Produit ajouté.");
 
             // Recherche du service GestionClient

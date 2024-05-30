@@ -8,14 +8,14 @@ public class Article implements Serializable {
     private String reference;
     private String famille;
     private double prixUnitaire;
-    private int quantiteEnStock;
+    private int stock;
 
     // Constructeurs, getters et setters
-    public Article(String reference, String famille, double prixUnitaire, int quantiteEnStock) {
+    public Article(String reference, String famille, double prixUnitaire, int stock) {
         this.reference = reference;
         this.famille = famille;
         this.prixUnitaire = prixUnitaire;
-        this.quantiteEnStock = quantiteEnStock;
+        this.stock = stock;
     }
 
     public String getReference() {
@@ -42,11 +42,11 @@ public class Article implements Serializable {
         this.prixUnitaire = prixUnitaire;
     }
 
-    public int getQuantiteEnStock() {
-        return quantiteEnStock;
+    public int getStock() {
+        return stock;
     }
 
-    public void setQuantiteEnStock(int quantiteEnStock) {
-        this.quantiteEnStock = quantiteEnStock;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

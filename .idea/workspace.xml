@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a3d677e-4620-4540-bf1a-12a34c487aff" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/client/TestClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/Article.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/Client.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/Facture.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/GestionClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/GestionFacturation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/GestionStock.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/DBConnection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/GestionClientImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/GestionFacturationImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/GestionStockImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/Serveur.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Heptatlon.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Heptatlon.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client/TestClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/TestClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/Article.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,21 +24,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "LucasFrra"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;LucasFrra&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/LucasFrra/Heptatlon",
-    "accountId": "ecab61c7-5a6d-4f60-b5de-cdc8fb65dc35"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/LucasFrra/Heptatlon&quot;,
+    &quot;accountId&quot;: &quot;ecab61c7-5a6d-4f60-b5de-cdc8fb65dc35&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2hB4byvMUECGfLEliTVguCVgt3K" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -65,7 +54,7 @@
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "develop",
+    "git-widget-placeholder": "ft__backend",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -75,7 +64,7 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
+    "settings.editor.selected.configurable": "advanced.settings",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
