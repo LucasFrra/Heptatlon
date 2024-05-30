@@ -1,15 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a3d677e-4620-4540-bf1a-12a34c487aff" name="Changes" comment="" />
+    <list default="true" id="7a3d677e-4620-4540-bf1a-12a34c487aff" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/client/TestClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/Article.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/Client.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/Facture.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/GestionClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/GestionFacturation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/GestionStock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/DBConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/GestionClientImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/GestionFacturationImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/GestionStockImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/Serveur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heptatlon.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Heptatlon.iml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "LucasFrra"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/LucasFrra/Heptatlon",
+    "accountId": "ecab61c7-5a6d-4f60-b5de-cdc8fb65dc35"
+  }
+}]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 3
 }]]></component>
@@ -21,13 +58,36 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.Server.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "develop",
     "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="Server" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="server.Serveur" />
+      <module name="Heptatlon" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -44,11 +104,26 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1717054214522</updated>
-      <workItem from="1717054215596" duration="1000" />
+      <workItem from="1717054215596" duration="5594000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
