@@ -25,9 +25,8 @@ public class TestClient {
                 System.out.println("Article non trouvé.");
             }
 
-            // Test de la méthode ajouterProduit
-            // A MODIFIER
-            gestionStock.ajouterProduit("REF002", 10);
+            // Test de la méthode modifierQuantiteStock
+            gestionStock.modifierQuantiteStock("REF001", -10);
             System.out.println("Produit ajouté.");
 
             // Recherche du service GestionClient

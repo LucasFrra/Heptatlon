@@ -50,7 +50,7 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
     }
 
     @Override
-    public void ajouterProduit(String reference, int quantite) throws RemoteException {
+    public void modifierQuantiteStock(String reference, int quantite) throws RemoteException {
         try (Connection connection = DBConnection.getConnection()) {
             String query = "UPDATE articles SET stock = stock + ? WHERE reference = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
