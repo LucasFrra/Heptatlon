@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface GestionStock extends Remote {
-    Article consulterStock(String reference) throws RemoteException;
-    List<String> rechercherArticle(String famille) throws RemoteException;
-    void modifierQuantiteStock(String reference, int quantite) throws RemoteException;
+    Article consulterStock(String reference, int magasinId) throws RemoteException;
+    List<String> rechercherArticle(String famille, int magasinId) throws RemoteException;
+    void modifierQuantiteStock(String reference, int quantite, int magasinId) throws RemoteException;
 }

@@ -17,8 +17,10 @@ public class TestClient {
             // Recherche du service GestionStock
             GestionStock gestionStock = (GestionStock) registry.lookup("GestionStock");
 
+            int magasinId = 1; // Exemple d'ID de magasin
+
             // Test de la méthode consulterStock
-            Article article = gestionStock.consulterStock("REF001");
+            Article article = gestionStock.consulterStock("REF001", magasinId);
             if (article != null) {
                 System.out.println("Article trouvé : " + article.getReference() + ", Quantité en stock : " + article.getStock());
             } else {
@@ -26,8 +28,8 @@ public class TestClient {
             }
 
             // Test de la méthode modifierQuantiteStock
-            gestionStock.modifierQuantiteStock("REF001", -10);
-            System.out.println("Produit ajouté.");
+            gestionStock.modifierQuantiteStock("REF001", -10, magasinId);
+            System.out.println("Quantité du produit modifiée.");
 
             // Recherche du service GestionClient
             GestionClient gestionClient = (GestionClient) registry.lookup("GestionClient");
