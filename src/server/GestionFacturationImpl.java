@@ -1,5 +1,6 @@
 package server;
 
+import common.ArticleFacture;
 import common.Facture;
 import common.GestionFacturation;
 
@@ -9,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GestionFacturationImpl extends UnicastRemoteObject implements GestionFacturation {
     protected GestionFacturationImpl() throws RemoteException {
@@ -16,37 +19,108 @@ public class GestionFacturationImpl extends UnicastRemoteObject implements Gesti
     }
 
     @Override
-    public void acheterArticle(int clientId, String reference, int quantite) throws RemoteException {
+    public int nouvelleTransaction(int clientId, int magasinId) throws RemoteException {
         try (Connection connection = DBConnection.getConnection()) {
-            // Logique pour enregistrer l'achat dans les factures et factures_articles
-            String insertFacture = "INSERT INTO factures (client_id, total, mode_paiement, date_facturation) VALUES (?, 0, 'non payé', CURDATE())";
-            PreparedStatement stmtFacture = connection.prepareStatement(insertFacture, PreparedStatement.RETURN_GENERATED_KEYS);
-            stmtFacture.setInt(1, clientId);
-            stmtFacture.executeUpdate();
-            ResultSet rs = stmtFacture.getGeneratedKeys();
-            if (rs.next()) {
-                int factureId = rs.getInt(1);
+            String query = "INSERT INTO factures (client_id, total, date_facturation, magasin_id) VALUES (?, 0, CURDATE(), ?)";
+            PreparedStatement stmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1, clientId);
+            stmt.setInt(2, magasinId);
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RemoteException("Erreur lors de la création de la transaction.", e);
+        }
+    }
+
+    @Override
+    public void acheterArticle(int transactionId, String reference, int quantite) throws RemoteException {
+        try (Connection connection = DBConnection.getConnection()) {
+            // Vérifier si l'article est en stock
+            String checkStock = "SELECT stock_quantite FROM stock WHERE article_ref = ? AND magasin_id = (SELECT magasin_id FROM factures WHERE id = ?)";
+            PreparedStatement stmtCheckStock = connection.prepareStatement(checkStock);
+            stmtCheckStock.setString(1, reference);
+            stmtCheckStock.setInt(2, transactionId);
+            ResultSet rsStock = stmtCheckStock.executeQuery();
+
+            if (rsStock.next() && rsStock.getInt("stock_quantite") >= quantite) {
+                // Réduire la quantité de l'article en stock
+                String updateStock = "UPDATE stock SET stock_quantite = stock_quantite - ? WHERE article_ref = ? AND magasin_id = (SELECT magasin_id FROM factures WHERE id = ?)";
+                PreparedStatement stmtUpdateStock = connection.prepareStatement(updateStock);
+                stmtUpdateStock.setInt(1, quantite);
+                stmtUpdateStock.setString(2, reference);
+                stmtUpdateStock.setInt(3, transactionId);
+                stmtUpdateStock.executeUpdate();
+
+                // Ajouter l'article à la facture
                 String insertFactureArticle = "INSERT INTO factures_articles (facture_id, article_reference, quantite) VALUES (?, ?, ?)";
                 PreparedStatement stmtFactureArticle = connection.prepareStatement(insertFactureArticle);
-                stmtFactureArticle.setInt(1, factureId);
+                stmtFactureArticle.setInt(1, transactionId);
                 stmtFactureArticle.setString(2, reference);
                 stmtFactureArticle.setInt(3, quantite);
                 stmtFactureArticle.executeUpdate();
+
+                // Récupérer le prix de l'article
+                String getArticlePrice = "SELECT prix_unitaire FROM articles WHERE reference = ?";
+                PreparedStatement stmtGetPrice = connection.prepareStatement(getArticlePrice);
+                stmtGetPrice.setString(1, reference);
+                ResultSet rsPrice = stmtGetPrice.executeQuery();
+                double prixUnitaire = 0;
+                if (rsPrice.next()) {
+                    prixUnitaire = rsPrice.getDouble("prix_unitaire");
+                }
+
+                // Mettre à jour le total de la facture
+                String updateTotal = "UPDATE factures SET total = total + ? WHERE id = ?";
+                PreparedStatement stmtUpdateTotal = connection.prepareStatement(updateTotal);
+                stmtUpdateTotal.setDouble(1, prixUnitaire * quantite);
+                stmtUpdateTotal.setInt(2, transactionId);
+                stmtUpdateTotal.executeUpdate();
+            } else {
+                throw new RemoteException("Quantité insuffisante en stock pour l'article : " + reference);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RemoteException("Erreur lors de l'achat de l'article", e);
         }
     }
 
     @Override
     public Facture consulterFacture(int clientId) throws RemoteException {
         try (Connection connection = DBConnection.getConnection()) {
+            // Récupérer la facture
             String query = "SELECT * FROM factures WHERE client_id = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setInt(1, clientId);
             ResultSet rs = stmt.executeQuery();
+
             if (rs.next()) {
-                return new Facture(rs.getInt("id"), rs.getInt("client_id"), rs.getDouble("total"), rs.getString("mode_paiement"), rs.getDate("date_facturation").toLocalDate());
+                int factureId = rs.getInt("id");
+                double total = rs.getDouble("total");
+                String modePaiement = rs.getString("mode_paiement");
+                LocalDate dateFacturation = rs.getDate("date_facturation").toLocalDate();
+
+                // Récupérer les articles de la facture
+                String queryArticles = "SELECT fa.article_reference, a.famille, a.prix_unitaire, fa.quantite " +
+                        "FROM factures_articles fa " +
+                        "JOIN articles a ON fa.article_reference = a.reference " +
+                        "WHERE fa.facture_id = ?";
+                PreparedStatement stmtArticles = connection.prepareStatement(queryArticles);
+                stmtArticles.setInt(1, factureId);
+                ResultSet rsArticles = stmtArticles.executeQuery();
+
+                List<ArticleFacture> articles = new ArrayList<>();
+                while (rsArticles.next()) {
+                    String reference = rsArticles.getString("article_reference");
+                    String famille = rsArticles.getString("famille");
+                    double prixUnitaire = rsArticles.getDouble("prix_unitaire");
+                    int quantite = rsArticles.getInt("quantite");
+                    articles.add(new ArticleFacture(reference, famille, prixUnitaire, quantite));
+                }
+
+                return new Facture(factureId, clientId, total, modePaiement, dateFacturation, articles);
             }
         } catch (Exception e) {
             e.printStackTrace();

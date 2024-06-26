@@ -2,6 +2,7 @@ package common;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 public class Facture implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -11,14 +12,16 @@ public class Facture implements Serializable {
     private double total;
     private String modePaiement;
     private LocalDate dateFacturation;
+    private List<ArticleFacture> articles; // Ajouter la liste d'articles
 
     // Constructeurs, getters et setters
-    public Facture(int id, int clientId, double total, String modePaiement, LocalDate dateFacturation) {
+    public Facture(int id, int clientId, double total, String modePaiement, LocalDate dateFacturation, List<ArticleFacture> articles) {
         this.id = id;
         this.clientId = clientId;
         this.total = total;
         this.modePaiement = modePaiement;
         this.dateFacturation = dateFacturation;
+        this.articles = articles; // Initialiser la liste d'articles
     }
 
     public int getId() {
@@ -59,5 +62,13 @@ public class Facture implements Serializable {
 
     public void setDateFacturation(LocalDate dateFacturation) {
         this.dateFacturation = dateFacturation;
+    }
+
+    public List<ArticleFacture> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<ArticleFacture> articles) {
+        this.articles = articles;
     }
 }
