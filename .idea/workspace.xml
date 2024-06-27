@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61dc8102-d334-49c1-8ada-1b56afc381de" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/README.MD" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/client/controller/MainController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/client/views/main.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Heptatlon.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Heptatlon.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/TestClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/TestClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/DBConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/GestionFacturationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/GestionFacturationImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,11 +38,13 @@
     &quot;accountId&quot;: &quot;ecab61c7-5a6d-4f60-b5de-cdc8fb65dc35&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2iRFAtjhH2Ll8jIuCdBcNVQLcdm" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -58,7 +57,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "ft__frontend",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/lucas/Documents/MIAGE/ClientServeur/openjfx-22.0.1_windows-x64_bin-sdk/javafx-sdk-22.0.1/lib/javafx.web.jar",
+    "last_opened_file_path": "C:/Users/Ashraf/Desktop/projet/openjfx-22.0.1_windows-x64_bin-sdk/javafx-sdk-22.0.1/lib",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -71,11 +70,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Application.JavaFXApp">
     <configuration name="JavaFXApp" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="client.TestClient" />
       <module name="Heptatlon" />
-      <option name="VM_PARAMETERS" value="--module-path C:\Users\lucas\Documents\MIAGE\ClientServeur\openjfx-22.0.1_windows-x64_bin-sdk\javafx-sdk-22.0.1\lib --add-modules javafx.controls,javafx.fxml " />
+      <option name="VM_PARAMETERS" value="--module-path C:\Users\Ashraf\Desktop\projet\openjfx-22.0.1_windows-x64_bin-sdk\javafx-sdk-22.0.1\lib --add-modules javafx.controls,javafx.fxml" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

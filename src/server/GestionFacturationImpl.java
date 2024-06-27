@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class GestionFacturationImpl extends UnicastRemoteObject implements GestionFacturation {
     protected GestionFacturationImpl() throws RemoteException {
@@ -154,6 +156,8 @@ public class GestionFacturationImpl extends UnicastRemoteObject implements Gesti
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return total;
+
+        BigDecimal totalRounded = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+        return totalRounded.doubleValue();
     }
 }
