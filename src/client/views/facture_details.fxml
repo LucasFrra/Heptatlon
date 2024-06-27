@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="client.controller.FactureDetailsController" alignment="center" spacing="10" stylesheets="@../css/styles.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <Button text="Retour" onAction="#goToClientDetails"/>
+    <Label fx:id="factureIdLabel"/>
+    <Label fx:id="totalLabel"/>
+    <Label fx:id="modePaiementLabel"/>
+    <Label fx:id="dateFacturationLabel"/>
+    <Label text="Articles"/>
+    <ListView fx:id="articlesListView"/>
+</VBox>

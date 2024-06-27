@@ -90,16 +90,16 @@ public class GestionFacturationImpl extends UnicastRemoteObject implements Gesti
     }
 
     @Override
-    public Facture consulterFacture(int clientId) throws RemoteException {
+    public Facture consulterFacture(int factureId) throws RemoteException {
         try (Connection connection = DBConnection.getConnection()) {
             // Récupérer la facture
-            String query = "SELECT * FROM factures WHERE client_id = ?";
+            String query = "SELECT * FROM factures WHERE id = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setInt(1, clientId);
+            stmt.setInt(1, factureId);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                int factureId = rs.getInt("id");
+                int clientId = rs.getInt("client_id");
                 double total = rs.getDouble("total");
                 String modePaiement = rs.getString("mode_paiement");
                 LocalDate dateFacturation = rs.getDate("date_facturation").toLocalDate();
@@ -126,6 +126,7 @@ public class GestionFacturationImpl extends UnicastRemoteObject implements Gesti
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RemoteException("Erreur lors de la consultation de la facture", e);
         }
         return null;
     }
@@ -159,5 +160,27 @@ public class GestionFacturationImpl extends UnicastRemoteObject implements Gesti
 
         BigDecimal totalRounded = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
         return totalRounded.doubleValue();
+    }
+
+    @Override
+    public List<Facture> consulterFactures(int clientId) throws RemoteException {
+        List<Facture> factures = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            String query = "SELECT id, total, mode_paiement, date_facturation FROM factures WHERE client_id = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, clientId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                double total = rs.getDouble("total");
+                String modePaiement = rs.getString("mode_paiement");
+                LocalDate dateFacturation = rs.getDate("date_facturation").toLocalDate();
+                factures.add(new Facture(id, clientId, total, modePaiement, dateFacturation, new ArrayList<>()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RemoteException("Erreur lors de la récupération des factures du client", e);
+        }
+        return factures;
     }
 }

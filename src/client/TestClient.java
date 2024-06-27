@@ -1,4 +1,3 @@
-// src/client/TestClient.java
 package client;
 
 import javafx.application.Application;
@@ -13,7 +12,7 @@ public class TestClient extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("views/main.fxml"));
         primaryStage.setTitle("Gestion de Stock et Facturation");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 

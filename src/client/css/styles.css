@@ -1,0 +1,19 @@
+/* src/css/styles.css */
+.root {
+    -fx-font-family: 'Arial';
+}
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+}
+
+.label {
+    -fx-font-size: 16px;
+}
+
+.text-field {
+    -fx-font-size: 14px;
+}

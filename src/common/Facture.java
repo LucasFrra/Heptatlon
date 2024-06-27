@@ -12,7 +12,7 @@ public class Facture implements Serializable {
     private double total;
     private String modePaiement;
     private LocalDate dateFacturation;
-    private List<ArticleFacture> articles; // Ajouter la liste d'articles
+    private List<ArticleFacture> articles;
 
     // Constructeurs, getters et setters
     public Facture(int id, int clientId, double total, String modePaiement, LocalDate dateFacturation, List<ArticleFacture> articles) {
@@ -21,7 +21,7 @@ public class Facture implements Serializable {
         this.total = total;
         this.modePaiement = modePaiement;
         this.dateFacturation = dateFacturation;
-        this.articles = articles; // Initialiser la liste d'articles
+        this.articles = articles;
     }
 
     public int getId() {

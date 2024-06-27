@@ -1,100 +1,39 @@
-// src/client/controller/MainController.java
 package client.controller;
 
-import common.GestionFacturation;
-import common.Facture;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.time.LocalDate;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.Parent;
+import java.io.IOException;
+import javafx.scene.Node;
+import javafx.event.ActionEvent;
 
 public class MainController {
 
     @FXML
-    private TextField clientIdField;
-    @FXML
-    private TextField magasinIdField;
-    @FXML
-    private TextField articleRefField;
-    @FXML
-    private TextField quantiteField;
-    @FXML
-    private TextField dateField;
-    @FXML
-    private Label transactionLabel;
-    @FXML
-    private Label achatStatusLabel;
-    @FXML
-    private Label factureLabel;
-    @FXML
-    private Label revenueLabel;
-
-    private GestionFacturation gestionFacturation;
-    private int transactionId;
-
-    public MainController() {
-        try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            gestionFacturation = (GestionFacturation) registry.lookup("GestionFacturation");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void goToCaisse(ActionEvent event) {
+        loadScene(event, "/client/views/caisse.fxml", 800, 600);
     }
 
     @FXML
-    private void handleStartTransaction() {
-        try {
-            int clientId = Integer.parseInt(clientIdField.getText());
-            int magasinId = Integer.parseInt(magasinIdField.getText());
-            transactionId = gestionFacturation.nouvelleTransaction(clientId, magasinId);
-            transactionLabel.setText("Transaction ID: " + transactionId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            transactionLabel.setText("Erreur lors de la création de la transaction");
-        }
+    private void goToAdmin(ActionEvent event) {
+        loadScene(event, "/client/views/admin.fxml", 800, 600);
     }
 
     @FXML
-    private void handleBuyArticle() {
-        try {
-            String reference = articleRefField.getText();
-            int quantite = Integer.parseInt(quantiteField.getText());
-            gestionFacturation.acheterArticle(transactionId, reference, quantite);
-            achatStatusLabel.setText("Article acheté: " + reference);
-        } catch (Exception e) {
-            e.printStackTrace();
-            achatStatusLabel.setText("Erreur lors de l'achat de l'article");
-        }
+    public void goToMain(ActionEvent event) {
+        loadScene(event, "/client/views/main.fxml", 800, 600);
     }
 
-    @FXML
-    private void handleConsultFacture() {
+    private void loadScene(ActionEvent event, String fxmlFile, int width, int height) {
         try {
-            int clientId = Integer.parseInt(clientIdField.getText());
-            Facture facture = gestionFacturation.consulterFacture(clientId);
-            if (facture != null) {
-                factureLabel.setText("Facture ID: " + facture.getId() + ", Total: " + facture.getTotal());
-            } else {
-                factureLabel.setText("Aucune facture trouvée pour le client ID: " + clientId);
-            }
-        } catch (Exception e) {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
+            Scene scene = new Scene(root, width, height);
+            stage.setScene(scene);
+        } catch (IOException e) {
             e.printStackTrace();
-            factureLabel.setText("Erreur lors de la consultation de la facture");
-        }
-    }
-
-    @FXML
-    private void handleCalculateRevenue() {
-        try {
-            LocalDate date = LocalDate.parse(dateField.getText());
-            double revenue = gestionFacturation.calculerChiffreAffaire(date);
-            revenueLabel.setText("Chiffre d'affaire: " + revenue);
-        } catch (Exception e) {
-            e.printStackTrace();
-            revenueLabel.setText("Erreur lors du calcul du chiffre d'affaire");
         }
     }
 }

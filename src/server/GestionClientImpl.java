@@ -28,7 +28,8 @@ public class GestionClientImpl extends UnicastRemoteObject implements GestionCli
 
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next()) {
-                client.setId(generatedKeys.getInt(1)); // Set the ID of the client
+                // Met l'ID généré dans l'objet client
+                client.setId(generatedKeys.getInt(1));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,12 +57,14 @@ public class GestionClientImpl extends UnicastRemoteObject implements GestionCli
     public List<Client> listerClients() throws RemoteException {
         List<Client> clients = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection()) {
+            System.out.println("Connected to the database.");
             String query = "SELECT * FROM clients";
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 clients.add(new Client(rs.getInt("id"), rs.getString("nom"), rs.getString("email")));
             }
+            System.out.println("Number of clients retrieved: " + clients.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
