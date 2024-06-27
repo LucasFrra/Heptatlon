@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a3d677e-4620-4540-bf1a-12a34c487aff" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/common/ArticleFacture.java" afterDir="false" />
+    <list default="true" id="61dc8102-d334-49c1-8ada-1b56afc381de" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/README.MD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/client/controller/MainController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/client/views/main.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heptatlon.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Heptatlon.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/client/TestClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/TestClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/Facture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/Facture.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/GestionFacturation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/GestionFacturation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/GestionFacturationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/GestionFacturationImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +22,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -40,38 +42,44 @@
   }
 }</component>
   <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="2hB4byvMUECGfLEliTVguCVgt3K" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="2iRFAtjhH2Ll8jIuCdBcNVQLcdm" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Server.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;ft__backend&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.JavaFXApp.executor": "Run",
+    "Application.Server.executor": "Run",
+    "Application.TestClient.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "ft__frontend",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/lucas/Documents/MIAGE/ClientServeur/openjfx-22.0.1_windows-x64_bin-sdk/javafx-sdk-22.0.1/lib/javafx.web.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.JavaFX",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RunManager" selected="Application.Server">
+    <configuration name="JavaFXApp" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="client.TestClient" />
+      <module name="Heptatlon" />
+      <option name="VM_PARAMETERS" value="--module-path C:\Users\lucas\Documents\MIAGE\ClientServeur\openjfx-22.0.1_windows-x64_bin-sdk\javafx-sdk-22.0.1\lib --add-modules javafx.controls,javafx.fxml " />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Server" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="server.Serveur" />
       <module name="Heptatlon" />
@@ -79,6 +87,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Server" />
+      <item itemvalue="Application.JavaFXApp" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -91,34 +103,19 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="7a3d677e-4620-4540-bf1a-12a34c487aff" name="Changes" comment="" />
-      <created>1717054214522</created>
+      <changelist id="61dc8102-d334-49c1-8ada-1b56afc381de" name="Changes" comment="" />
+      <created>1719445344709</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1717054214522</updated>
-      <workItem from="1717054215596" duration="5594000" />
-      <workItem from="1718261728326" duration="11029000" />
-      <workItem from="1719302413919" duration="6000" />
-      <workItem from="1719432741577" duration="24000" />
-      <workItem from="1719433057814" duration="223000" />
-      <workItem from="1719433294969" duration="143000" />
-      <workItem from="1719433599209" duration="8330000" />
+      <updated>1719445344709</updated>
+      <workItem from="1719445346075" duration="1018000" />
+      <workItem from="1719446596278" duration="84000" />
+      <workItem from="1719446890580" duration="1512000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
