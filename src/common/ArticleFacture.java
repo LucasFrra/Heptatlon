@@ -6,13 +6,15 @@ public class ArticleFacture implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String reference;
+    private String nom;
     private String famille;
     private double prixUnitaire;
     private int quantite;
 
     // Constructeurs, getters et setters
-    public ArticleFacture(String reference, String famille, double prixUnitaire, int quantite) {
+    public ArticleFacture(String reference, String nom, String famille, double prixUnitaire, int quantite) {
         this.reference = reference;
+        this.nom = nom;
         this.famille = famille;
         this.prixUnitaire = prixUnitaire;
         this.quantite = quantite;
@@ -25,6 +27,10 @@ public class ArticleFacture implements Serializable {
     public void setReference(String reference) {
         this.reference = reference;
     }
+
+    public String getNom() {return nom;}
+
+    public void setNom(String nom) {this.nom = nom;}
 
     public String getFamille() {
         return famille;

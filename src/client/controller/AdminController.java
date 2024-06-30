@@ -68,7 +68,9 @@ public class AdminController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/views/client_details.fxml"));
                 Stage stage = (Stage) clientListView.getScene().getWindow();
-                Scene scene = new Scene(loader.load(), 800, 600);
+                double width = stage.getWidth();
+                double height = stage.getHeight();
+                Scene scene = new Scene(loader.load(), width, height);
 
                 ClientDetailsController controller = loader.getController();
                 controller.setClient(selectedClient);

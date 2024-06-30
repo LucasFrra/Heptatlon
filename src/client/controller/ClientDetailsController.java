@@ -45,7 +45,8 @@ public class ClientDetailsController {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/views/admin.fxml"));
-            stage.setScene(new Scene(loader.load(), 800, 600));
+            stage.setScene(new Scene(loader.load(), stage.getWidth(), stage.getHeight()));
+            stage.setMaximized(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -99,13 +100,16 @@ public class ClientDetailsController {
                 int factureId = Integer.parseInt(selectedFacture.split(" ")[1]);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/views/facture_details.fxml"));
                 Stage stage = (Stage) factureListView.getScene().getWindow();
-                Scene scene = new Scene(loader.load(), 800, 600);
+                double width = stage.getWidth();
+                double height = stage.getHeight();
+                Scene scene = new Scene(loader.load(), width, height);
 
                 FactureDetailsController controller = loader.getController();
                 controller.setFacture(factureId);
                 controller.setClientName(clientName);
 
                 stage.setScene(scene);
+                stage.setMaximized(true);
             } catch (IOException | NumberFormatException e) {
                 e.printStackTrace();
             }

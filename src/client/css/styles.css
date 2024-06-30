@@ -1,19 +1,87 @@
-/* src/css/styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
 .root {
-    -fx-font-family: 'Arial';
+    -fx-font-family: 'Montserrat', sans-serif;
+    -fx-background-color: #373B44;
+    -fx-font-weight: 200;
 }
 
-.button {
-    -fx-background-color: #4CAF50;
+.title-homepage {
+    -fx-font-size: 64px;
+    -fx-margin-bottom: 32px;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 10px 20px;
 }
 
-.label {
-    -fx-font-size: 16px;
+Button {
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFF;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-border-color: #FFF;
+    -fx-border-width: 2px;
+    -fx-border-radius: 24px;
+    -fx-padding: 10px 40px;
+    -fx-text-transform: uppercase;
 }
 
-.text-field {
-    -fx-font-size: 14px;
+/*
+Label {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: 200;
+}*/
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: white;
+    -fx-font-family: 'Roboto Mono', monospace;
+}
+
+.text-top-receipt {
+    -fx-font-family: 'Roboto Mono', monospace;
+}
+
+.title-receipt {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-font-family: 'Roboto Mono', monospace;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: white;
+    -fx-border-width: 0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-border-width: 0;
+    -fx-background-color: white;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-width: 0;
+}
+
+.table-view .table-cell {
+    -fx-background-color: white;
+    -fx-border-width: 0;
+}
+
+.table-view .table-cell:filled:selected, .table-view .table-cell:filled:hover {
+    -fx-background-color: white;
+    -fx-border-width: 0;
+}
+
+.table-view .column-header .label {
+    -fx-font-weight: normal;
+    -fx-background-color: white;
+    -fx-border-width: 0;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .column-header .column-header {
+    -fx-background-color: white;
+    -fx-border-width: 0;
+    -fx-alignment: CENTER_LEFT;
 }

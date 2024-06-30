@@ -2,14 +2,44 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20" stylesheets="@../css/styles.css"
-      xmlns:fx="http://javafx.com/fxml" fx:controller="client.controller.MainController">
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<VBox alignment="CENTER" prefHeight="615.0" prefWidth="614.0" spacing="20" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controller.MainController">
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
-
-    <Button text="Caisse" onAction="#goToCaisse"/>
-    <Button text="Admin" onAction="#goToAdmin"/>
+    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@../images/heptatlon_logo.jpg" />
+        </image>
+    </ImageView>
+   <Label styleClass="title-homepage" text="Gestion de stock" VBox.vgrow="SOMETIMES" />
+   <GridPane>
+     <columnConstraints>
+       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+       <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+     </columnConstraints>
+     <rowConstraints>
+       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+     </rowConstraints>
+      <children>
+      
+          <Button onAction="#goToCaisse" text="Caisse" GridPane.rowIndex="1">
+            <GridPane.margin>
+               <Insets right="20.0" />
+            </GridPane.margin></Button>
+          <Button onAction="#goToAdmin" text="Admin" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <GridPane.margin>
+               <Insets left="20.0" />
+            </GridPane.margin></Button>
+      </children>
+   </GridPane>
 </VBox>

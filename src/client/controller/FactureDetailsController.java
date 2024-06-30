@@ -1,19 +1,25 @@
 package client.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.scene.Node;
 import common.ArticleFacture;
 import common.Facture;
 import common.GestionFacturation;
+
+import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.Node;
-import java.io.IOException;
 import java.util.List;
 
 public class FactureDetailsController {
@@ -27,7 +33,15 @@ public class FactureDetailsController {
     @FXML
     private Label dateFacturationLabel;
     @FXML
-    private ListView<String> articlesListView;
+    private TableView<ArticleFacture> articlesTableView;
+    @FXML
+    private TableColumn<ArticleFacture, String> referenceColumn;
+    @FXML
+    private TableColumn<ArticleFacture, String> articleColumn;
+    @FXML
+    private TableColumn<ArticleFacture, Integer> quantiteColumn;
+    @FXML
+    private TableColumn<ArticleFacture, Double> prixColumn;
 
     private GestionFacturation gestionFacturation;
     private int factureId;
@@ -55,15 +69,8 @@ public class FactureDetailsController {
         try {
             Facture facture = gestionFacturation.consulterFacture(factureId);
             if (facture != null) {
-                factureIdLabel.setText("Facture ID: " + facture.getId());
-                totalLabel.setText("Total: " + facture.getTotal() + " €");
-                modePaiementLabel.setText("Mode de Paiement: " + facture.getModePaiement());
-                dateFacturationLabel.setText("Date: " + facture.getDateFacturation().toString());
-
-                articlesListView.getItems().clear();
-                for (ArticleFacture article : facture.getArticles()) {
-                    articlesListView.getItems().add(article.getReference() + ": " + article.getQuantite() + " x " + article.getPrixUnitaire() + " € (" + article.getFamille() + ")");
-                }
+                ObservableList<ArticleFacture> articles = FXCollections.observableArrayList(facture.getArticles());
+                articlesTableView.setItems(articles);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,16 +78,51 @@ public class FactureDetailsController {
     }
 
     @FXML
+    private void initialize() {
+        referenceColumn.setCellValueFactory(new PropertyValueFactory<>("reference"));
+        articleColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        quantiteColumn.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+        prixColumn.setCellValueFactory(new PropertyValueFactory<>("prixUnitaire"));
+        prixColumn.setCellFactory(tc -> new TableCell<ArticleFacture, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(String.format("%.2f €", item));
+                }
+            }
+        });
+
+        articleColumn.setCellFactory(tc -> {
+            TableCell<ArticleFacture, String> cell = new TableCell<ArticleFacture, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(item.length() > 20 ? item.substring(0, 20) : item);
+                    }
+                }
+            };
+            return cell;
+        });
+    }
+
+    @FXML
     private void goToClientDetails(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/views/client_details.fxml"));
-            Scene scene = new Scene(loader.load(), 800, 600);
+            Scene scene = new Scene(loader.load());
 
             ClientDetailsController controller = loader.getController();
             controller.setClient(clientName);
 
             stage.setScene(scene);
+            stage.setMaximized(true);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -13,25 +13,28 @@ public class MainController {
 
     @FXML
     private void goToCaisse(ActionEvent event) {
-        loadScene(event, "/client/views/caisse.fxml", 800, 600);
+        loadScene(event, "/client/views/caisse.fxml");
     }
 
     @FXML
     private void goToAdmin(ActionEvent event) {
-        loadScene(event, "/client/views/admin.fxml", 800, 600);
+        loadScene(event, "/client/views/admin.fxml");
     }
 
     @FXML
     public void goToMain(ActionEvent event) {
-        loadScene(event, "/client/views/main.fxml", 800, 600);
+        loadScene(event, "/client/views/main.fxml");
     }
 
-    private void loadScene(ActionEvent event, String fxmlFile, int width, int height) {
+    private void loadScene(ActionEvent event, String fxmlFile) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            double width = stage.getWidth();
+            double height = stage.getHeight();
             Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
             Scene scene = new Scene(root, width, height);
             stage.setScene(scene);
+            stage.setMaximized(true);
         } catch (IOException e) {
             e.printStackTrace();
         }

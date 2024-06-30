@@ -1,20 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="client.controller.FactureDetailsController" alignment="center" spacing="10" stylesheets="@../css/styles.css">
+<VBox alignment="center" spacing="10" stylesheets="@../css/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="client.controller.FactureDetailsController">
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
-    <Button text="Retour" onAction="#goToClientDetails"/>
-    <Label fx:id="factureIdLabel"/>
-    <Label fx:id="totalLabel"/>
-    <Label fx:id="modePaiementLabel"/>
-    <Label fx:id="dateFacturationLabel"/>
-    <Label text="Articles"/>
-    <ListView fx:id="articlesListView"/>
+    <Button onAction="#goToClientDetails" text="Retour" />
+    <VBox maxWidth="400.0" prefHeight="800.0" prefWidth="400.0" style="-fx-background-color: #fff;">
+        <children>
+            <VBox alignment="TOP_CENTER">
+                <children>
+                    <ImageView fitHeight="64.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/heptatlon_logo.jpg" />
+                        </image>
+                        <VBox.margin>
+                            <Insets bottom="10.0" />
+                        </VBox.margin>
+                    </ImageView>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="VILLE 00000" styleClass="text-top-receipt"/>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lundi - Samedi : 8h30 - 19h30" styleClass="text-top-receipt"/>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="France" styleClass="text-top-receipt"/>
+                    <Label fx:id="factureIdLabel" alignment="TOP_LEFT" style="-fx-text-fill: #000;" text="Ticket de vente" textAlignment="CENTER" styleClass="title-receipt">
+                        <VBox.margin>
+                            <Insets top="5.0" />
+                        </VBox.margin>
+                    </Label>
+                    <!--<Label fx:id="totalLabel" alignment="TOP_LEFT" style="-fx-text-fill: #000;" textAlignment="CENTER">
+                        <VBox.margin>
+                            <Insets top="5.0" />
+                        </VBox.margin>
+                    </Label>
+                    <Label fx:id="modePaiementLabel" alignment="TOP_LEFT" style="-fx-text-fill: #000;" textAlignment="CENTER">
+                        <VBox.margin>
+                            <Insets top="5.0" />
+                        </VBox.margin>
+                    </Label>
+                    <Label fx:id="dateFacturationLabel" alignment="TOP_LEFT" style="-fx-text-fill: #000;" textAlignment="CENTER">
+                        <VBox.margin>
+                            <Insets top="5.0" />
+                        </VBox.margin>
+                    </Label>-->
+                </children>
+                <VBox.margin>
+                    <Insets bottom="10.0" />
+                </VBox.margin>
+            </VBox>
+            <TableView fx:id="articlesTableView">
+                <columns>
+                    <TableColumn fx:id="referenceColumn" text="Référence" />
+                    <TableColumn fx:id="articleColumn" text="Article" />
+                    <TableColumn fx:id="quantiteColumn" text="Qté" />
+                    <TableColumn fx:id="prixColumn" text="EUR" />
+                </columns>
+            </TableView>
+        </children>
+        <padding>
+            <Insets bottom="40.0" left="20.0" right="20.0" top="40.0" />
+        </padding>
+    </VBox>
 </VBox>

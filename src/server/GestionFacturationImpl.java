@@ -105,7 +105,7 @@ public class GestionFacturationImpl extends UnicastRemoteObject implements Gesti
                 LocalDate dateFacturation = rs.getDate("date_facturation").toLocalDate();
 
                 // Récupérer les articles de la facture
-                String queryArticles = "SELECT fa.article_reference, a.famille, a.prix_unitaire, fa.quantite " +
+                String queryArticles = "SELECT fa.article_reference, a.nom , a.famille, a.prix_unitaire, fa.quantite " +
                         "FROM factures_articles fa " +
                         "JOIN articles a ON fa.article_reference = a.reference " +
                         "WHERE fa.facture_id = ?";
@@ -116,10 +116,11 @@ public class GestionFacturationImpl extends UnicastRemoteObject implements Gesti
                 List<ArticleFacture> articles = new ArrayList<>();
                 while (rsArticles.next()) {
                     String reference = rsArticles.getString("article_reference");
+                    String nom = rsArticles.getString("nom");
                     String famille = rsArticles.getString("famille");
                     double prixUnitaire = rsArticles.getDouble("prix_unitaire");
                     int quantite = rsArticles.getInt("quantite");
-                    articles.add(new ArticleFacture(reference, famille, prixUnitaire, quantite));
+                    articles.add(new ArticleFacture(reference, nom, famille, prixUnitaire, quantite));
                 }
 
                 return new Facture(factureId, clientId, total, modePaiement, dateFacturation, articles);
