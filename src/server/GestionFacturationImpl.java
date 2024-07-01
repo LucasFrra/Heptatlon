@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -183,5 +184,19 @@ public class GestionFacturationImpl extends UnicastRemoteObject implements Gesti
             throw new RemoteException("Erreur lors de la récupération des factures du client", e);
         }
         return factures;
+    }
+
+    @Override
+    public void mettreAJourModePaiement(int transactionId, String modePaiement) throws RemoteException {
+        try (Connection connection = DBConnection.getConnection()) {
+            String query = "UPDATE factures SET mode_paiement = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, modePaiement);
+            stmt.setInt(2, transactionId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RemoteException("Erreur lors de la mise à jour du mode de paiement.", e);
+        }
     }
 }

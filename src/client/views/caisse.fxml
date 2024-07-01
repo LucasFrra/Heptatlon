@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
@@ -10,18 +15,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<BorderPane stylesheets="@../css/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="client.controller.CaisseController">
+<BorderPane stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controller.CaisseController">
 
     <!-- Partie haute : ComboBox pour sélectionner la famille d'articles -->
     <top>
         <HBox alignment="CENTER">
             <children>
-                <Label text="Famille d'articles : " style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;" />
-                <ComboBox fx:id="familleComboBox" promptText="Tous les articles" onAction="#rechercherArticlesParFamille">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;" text="Famille d'articles : " />
+                <ComboBox fx:id="familleComboBox" onAction="#rechercherArticlesParFamille" promptText="Sélectionner une famille">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Tous les articles" />
@@ -34,7 +35,11 @@
 
     <!-- Partie gauche : FlowPane pour les cartes d'articles -->
     <center>
-        <FlowPane fx:id="flowPane" prefWidth="700" />
+        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-pane-caisse">
+            <content>
+                <FlowPane fx:id="flowPane" prefWidth="700" />
+            </content>
+        </ScrollPane>
     </center>
 
     <!-- Partie droite : VBox pour la liste du panier et le bouton de validation -->

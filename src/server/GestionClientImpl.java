@@ -38,11 +38,11 @@ public class GestionClientImpl extends UnicastRemoteObject implements GestionCli
     }
 
     @Override
-    public Client consulterClient(int clientId) throws RemoteException {
+    public Client consulterClient(String email) throws RemoteException {
         try (Connection connection = DBConnection.getConnection()) {
-            String query = "SELECT * FROM clients WHERE id = ?";
+            String query = "SELECT * FROM clients WHERE email = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setInt(1, clientId);
+            stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return new Client(rs.getInt("id"), rs.getString("nom"), rs.getString("email"));

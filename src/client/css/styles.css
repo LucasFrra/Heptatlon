@@ -84,3 +84,11 @@ Button {
     -fx-border-width: 0;
     -fx-alignment: CENTER_LEFT;
 }
+
+.scroll-pane{
+    -fx-background-color:transparent;
+}
+
+.scroll-pane > .viewport {
+-fx-background-color: transparent;
+}

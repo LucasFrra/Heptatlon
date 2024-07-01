@@ -12,4 +12,5 @@ public interface GestionFacturation extends Remote {
     void payerFacture(int clientId) throws RemoteException;
     double calculerChiffreAffaire(LocalDate date) throws RemoteException;
     List<Facture> consulterFactures(int clientId) throws RemoteException;
+    void mettreAJourModePaiement(int transactionId, String modePaiement) throws RemoteException; // Nouvelle méthode
 }

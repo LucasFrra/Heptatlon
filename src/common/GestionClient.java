@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface GestionClient extends Remote {
     Client ajouterClient(Client client) throws RemoteException;
-    Client consulterClient(int clientId) throws RemoteException;
+    Client consulterClient(String email) throws RemoteException;
     List<Client> listerClients() throws RemoteException;
 }

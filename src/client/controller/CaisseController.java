@@ -1,8 +1,10 @@
 package client.controller;
 
 import common.Article;
+import common.Client;
 import common.GestionFacturation;
 import common.GestionStock;
+import common.GestionClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
+import javafx.scene.layout.GridPane;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -40,6 +43,7 @@ public class CaisseController {
 
     private GestionStock gestionStock;
     private GestionFacturation gestionFacturation;
+    private GestionClient gestionClient;
     private ObservableList<String> panier;
     private List<Article> panierArticles;
     private boolean transactionStarted = false;
@@ -50,6 +54,7 @@ public class CaisseController {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             gestionStock = (GestionStock) registry.lookup("GestionStock");
             gestionFacturation = (GestionFacturation) registry.lookup("GestionFacturation");
+            gestionClient = (GestionClient) registry.lookup("GestionClient");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,6 +67,7 @@ public class CaisseController {
 
         flowPane.setHgap(10);
         flowPane.setVgap(10);
+        flowPane.setPadding(new Insets(10));
 
         loadArticles();
         loadFamilles();
@@ -169,31 +175,131 @@ public class CaisseController {
             return;
         }
 
+        Alert accountAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        accountAlert.setTitle("Validation du panier");
+        accountAlert.setHeaderText("Le client a-t-il un compte chez Heptatlon ?");
+        accountAlert.setContentText("Sélectionnez une option.");
+
+        ButtonType buttonTypeYes = new ButtonType("Oui");
+        ButtonType buttonTypeNo = new ButtonType("Non");
+        ButtonType buttonTypeCancel = new ButtonType("Annuler", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        accountAlert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo, buttonTypeCancel);
+
+        Optional<ButtonType> result = accountAlert.showAndWait();
+        if (result.isPresent() && result.get() == buttonTypeYes) {
+            demanderEmailClient();
+        } else if (result.isPresent() && result.get() == buttonTypeNo) {
+            demanderNouveauClient();
+        }
+    }
+
+    private void demanderEmailClient() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Validation du panier");
-        dialog.setHeaderText("Veuillez entrer l'ID du client");
-        dialog.setContentText("ID du client:");
+        dialog.setHeaderText("Veuillez entrer l'adresse email du client");
+        dialog.setContentText("Email:");
 
         Optional<String> result = dialog.showAndWait();
-        result.ifPresent(clientIdString -> {
+        result.ifPresent(email -> {
             try {
-                int clientId = Integer.parseInt(clientIdString);
-                int transactionId = gestionFacturation.nouvelleTransaction(clientId, magasinId);
-
-                for (Article article : panierArticles) {
-                    gestionFacturation.acheterArticle(transactionId, article.getReference(), article.getStock());
+                Client client = gestionClient.consulterClient(email);
+                if (client != null) {
+                    demanderModePaiement(client.getId());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Validation du panier");
+                    alert.setHeaderText("Client non trouvé");
+                    alert.setContentText("Aucun client trouvé avec cet email.");
+                    alert.showAndWait();
                 }
-
-                panier.clear();
-                panierArticles.clear();
-                transactionStarted = false;
-            } catch (NumberFormatException e) {
-                System.out.println("ID du client invalide.");
             } catch (RemoteException e) {
                 e.printStackTrace();
                 System.out.println("Erreur lors de la validation de la transaction : " + e.getMessage());
             }
         });
+    }
+
+    private void demanderNouveauClient() {
+        Dialog<Client> dialog = new Dialog<>();
+        dialog.setTitle("Validation du panier");
+        dialog.setHeaderText("Veuillez entrer les informations du nouveau client");
+
+        ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField nameField = new TextField();
+        nameField.setPromptText("Nom Prénom");
+        TextField emailField = new TextField();
+        emailField.setPromptText("Email (optionnel)");
+
+        grid.add(new Label("Nom Prénom:"), 0, 0);
+        grid.add(nameField, 1, 0);
+        grid.add(new Label("Email:"), 0, 1);
+        grid.add(emailField, 1, 1);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == okButtonType) {
+                return new Client(0, nameField.getText(), emailField.getText());
+            }
+            return null;
+        });
+
+        Optional<Client> result = dialog.showAndWait();
+        result.ifPresent(clientInfo -> {
+            try {
+                Client newClient = gestionClient.ajouterClient(new Client(0, clientInfo.getNom(), clientInfo.getEmail()));
+                demanderModePaiement(newClient.getId());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.out.println("Erreur lors de l'ajout du nouveau client : " + e.getMessage());
+            }
+        });
+    }
+
+    private void demanderModePaiement(int clientId) {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("CB", "CB", "Chèque", "Espèces");
+        dialog.setTitle("Validation du panier");
+        dialog.setHeaderText("Veuillez sélectionner le mode de paiement");
+        dialog.setContentText("Mode de paiement:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(modePaiement -> {
+            finaliserTransaction(clientId, modePaiement);
+        });
+    }
+
+    private void finaliserTransaction(int clientId, String modePaiement) {
+        try {
+            int transactionId = gestionFacturation.nouvelleTransaction(clientId, magasinId);
+
+            for (Article article : panierArticles) {
+                gestionFacturation.acheterArticle(transactionId, article.getReference(), article.getStock());
+            }
+
+            // Mettre à jour le mode de paiement
+            gestionFacturation.mettreAJourModePaiement(transactionId, modePaiement);
+
+            panier.clear();
+            panierArticles.clear();
+            transactionStarted = false;
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Validation du panier");
+            alert.setHeaderText("Transaction validée");
+            alert.setContentText("La transaction a été validée avec succès.");
+            alert.showAndWait();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors de la validation de la transaction : " + e.getMessage());
+        }
     }
 
     @FXML
