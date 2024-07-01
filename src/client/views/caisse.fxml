@@ -10,7 +10,27 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <BorderPane stylesheets="@../css/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="client.controller.CaisseController">
+
+    <!-- Partie haute : ComboBox pour sélectionner la famille d'articles -->
+    <top>
+        <HBox alignment="CENTER">
+            <children>
+                <Label text="Famille d'articles : " style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;" />
+                <ComboBox fx:id="familleComboBox" promptText="Tous les articles" onAction="#rechercherArticlesParFamille">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Tous les articles" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </children>
+        </HBox>
+    </top>
 
     <!-- Partie gauche : FlowPane pour les cartes d'articles -->
     <center>
@@ -23,14 +43,14 @@
             <Text style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: white;" text="Panier" />
             <ListView fx:id="panierListView" VBox.vgrow="ALWAYS" />
             <TextField fx:id="quantityField" promptText="Quantité" />
-         <HBox alignment="CENTER">
-            <children>
-                  <Button fx:id="validerButton" onAction="#validerPanier" text="Valider" HBox.hgrow="ALWAYS" />
-            </children>
-            <VBox.margin>
-               <Insets bottom="60.0" />
-            </VBox.margin>
-         </HBox>
+            <HBox alignment="CENTER">
+                <children>
+                    <Button fx:id="validerButton" onAction="#validerPanier" text="Valider" HBox.hgrow="ALWAYS" />
+                </children>
+                <VBox.margin>
+                    <Insets bottom="60.0" />
+                </VBox.margin>
+            </HBox>
         </VBox>
     </right>
 

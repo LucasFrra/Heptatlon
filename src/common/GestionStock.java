@@ -10,4 +10,5 @@ public interface GestionStock extends Remote {
     void modifierQuantiteStock(String reference, int quantite, int magasinId) throws RemoteException;
     void ajouterArticle(String nom, String reference, String famille, double prixUnitaire, String imageUrl) throws RemoteException;
     List<Article> consulterArticles(int magasinId) throws RemoteException;
+    List<String> consulterFamilles() throws RemoteException;
 }

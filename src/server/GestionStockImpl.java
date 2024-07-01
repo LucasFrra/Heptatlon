@@ -130,4 +130,20 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
         return articles;
     }
 
+    @Override
+    public List<String> consulterFamilles() throws RemoteException {
+        List<String> familles = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            String query = "SELECT DISTINCT famille FROM articles";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                familles.add(rs.getString("famille"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return familles;
+    }
+
 }

@@ -3,6 +3,8 @@ package client.controller;
 import common.Article;
 import common.GestionFacturation;
 import common.GestionStock;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -12,8 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -35,6 +35,8 @@ public class CaisseController {
     private TextField quantityField;
     @FXML
     private Button validerButton;
+    @FXML
+    private ComboBox<String> familleComboBox;
 
     private GestionStock gestionStock;
     private GestionFacturation gestionFacturation;
@@ -62,18 +64,39 @@ public class CaisseController {
         flowPane.setVgap(10);
 
         loadArticles();
+        loadFamilles();
     }
 
     private void loadArticles() {
         try {
             List<Article> articles = gestionStock.consulterArticles(1);
-
-            for (Article article : articles) {
-                flowPane.getChildren().add(createArticleCard(article));
-            }
+            updateFlowPaneWithArticles(articles);
         } catch (RemoteException e) {
             e.printStackTrace();
             System.out.println("Erreur lors du chargement des articles : " + e.getMessage());
+        }
+    }
+
+    private void loadFamilles() {
+        try {
+            List<String> familles = gestionStock.consulterFamilles(); // Nouvelle méthode à implémenter
+            familles.add(0, "Tous les articles"); // Ajouter "Tous les articles" au début de la liste
+            familleComboBox.setItems(FXCollections.observableArrayList(familles));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors du chargement des familles : " + e.getMessage());
+        }
+    }
+
+    private void updateFlowPaneWithArticles(List<Article> articles) {
+        flowPane.getChildren().clear();
+        for (Article article : articles) {
+            flowPane.getChildren().add(createArticleCard(article));
+        }
+        if (articles.isEmpty()) {
+            Text noArticlesText = new Text("Aucun article trouvé.");
+            noArticlesText.setFill(javafx.scene.paint.Color.WHITE);
+            flowPane.getChildren().add(noArticlesText);
         }
     }
 
@@ -171,5 +194,28 @@ public class CaisseController {
                 System.out.println("Erreur lors de la validation de la transaction : " + e.getMessage());
             }
         });
+    }
+
+    @FXML
+    private void rechercherArticlesParFamille() {
+        String famille = familleComboBox.getValue();
+        if (famille != null) {
+            try {
+                List<Article> articles;
+                if ("Tous les articles".equals(famille)) {
+                    articles = gestionStock.consulterArticles(magasinId);
+                } else {
+                    List<String> references = gestionStock.rechercherArticle(famille, magasinId);
+                    articles = new ArrayList<>();
+                    for (String reference : references) {
+                        articles.add(gestionStock.consulterStock(reference, magasinId));
+                    }
+                }
+                updateFlowPaneWithArticles(articles);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.out.println("Erreur lors de la recherche des articles : " + e.getMessage());
+            }
+        }
     }
 }
