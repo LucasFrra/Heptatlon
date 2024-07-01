@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controller.StockController">
+    <children>
+        <VBox alignment="CENTER">
+            <children>
+            <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;" text="Référence de l'article" />
+                <HBox alignment="CENTER">
+                    <TextField fx:id="searchField" prefWidth="200.0" promptText="Référence de l'article">
+                  <HBox.margin>
+                     <Insets right="10.0" />
+                  </HBox.margin></TextField>
+                    <Button fx:id="searchButton" text="Rechercher" />
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+                </HBox>
+              <FlowPane fx:id="flowPane" alignment="CENTER" columnHalignment="CENTER" />
+            <VBox alignment="CENTER">
+               <children>
+                      <HBox alignment="CENTER">
+                          <TextField fx:id="quantityField" prefWidth="200.0" promptText="Quantité supplémentaire" />
+                      </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Button fx:id="modifyButton" text="Ajouter quantité" />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </VBox>
+            </children>
+        </VBox>
+    </children>
+</VBox>
