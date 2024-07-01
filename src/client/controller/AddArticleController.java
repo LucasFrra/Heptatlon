@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -71,7 +72,29 @@ public class AddArticleController {
             alert.setHeaderText(null);
             alert.setContentText("L'article a été ajouté avec succès.");
             alert.showAndWait();
+            MainController mainController = new MainController();
+            mainController.goToMain(event);
 
+        } catch (RemoteException e) {
+            if (e.getMessage().contains("DuplicateEntryException")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText(null);
+                alert.setContentText("Erreur : La référence de l'article existe déjà.");
+                alert.showAndWait();
+            } else if (e.getMessage().contains("DatabaseException")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText(null);
+                alert.setContentText("Erreur lors de l'ajout de l'article.");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText(null);
+                alert.setContentText("Erreur inattendue.");
+                alert.showAndWait();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -82,10 +105,10 @@ public class AddArticleController {
         }
     }
 
+
     private String uploadImage(File file) throws IOException {
         if (file == null) return null;
 
-        // Change the path accordingly
         String projectDir = System.getProperty("user.dir");
         String serverPath = projectDir + "/src/client/images/articles/";
         File serverDir = new File(serverPath);
@@ -104,7 +127,6 @@ public class AddArticleController {
             }
         }
 
-        // Return the relative path from the project directory
         return "src/client/images/articles/" + file.getName();
     }
 

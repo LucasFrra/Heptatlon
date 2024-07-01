@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 
-<?import javafx.geometry.Insets?>
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controller.AddArticleController">
-    <Button onAction="#goToMain" text="Retour" />
+    <VBox alignment="CENTER">
+        <Button onAction="#goToMain" text="Retour" />
+      <VBox.margin>
+         <Insets bottom="30.0" />
+      </VBox.margin>
+    </VBox>
     <children>
         <GridPane alignment="CENTER" hgap="20.0" vgap="20.0">
             <children>
@@ -22,9 +28,9 @@
                 <TextField fx:id="familleField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <Label styleClass="form-label" text="Prix Unitaire:" GridPane.rowIndex="3" />
                 <TextField fx:id="prixUnitaireField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <TextField fx:id="imageUrlField" editable="false" GridPane.rowIndex="4" />
-                <Button onAction="#handleChooseFile" text="Choisir Fichier" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <Button onAction="#handleAjouterArticle" text="Ajouter Article" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                <TextField fx:id="imageUrlField" editable="false" GridPane.rowIndex="4" visible="false" />
+                <Button onAction="#handleChooseFile" text="Choisir Fichier" GridPane.rowIndex="4" GridPane.columnSpan="2" GridPane.halignment="CENTER"/>
+                <Button onAction="#handleAjouterArticle" text="Ajouter Article" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="15" />
             </children>
             <columnConstraints>
                 <ColumnConstraints />

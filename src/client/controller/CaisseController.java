@@ -4,20 +4,16 @@ import common.Article;
 import common.GestionFacturation;
 import common.GestionStock;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TextInputDialog;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -45,7 +41,7 @@ public class CaisseController {
     private ObservableList<String> panier;
     private List<Article> panierArticles;
     private boolean transactionStarted = false;
-    private int magasinId = 1; // Remplace par le véritable magasin ID
+    private int magasinId = 1;
 
     public CaisseController() {
         try {
@@ -75,7 +71,6 @@ public class CaisseController {
             for (Article article : articles) {
                 flowPane.getChildren().add(createArticleCard(article));
             }
-            System.out.println("Articles chargés avec succès.");
         } catch (RemoteException e) {
             e.printStackTrace();
             System.out.println("Erreur lors du chargement des articles : " + e.getMessage());
@@ -85,7 +80,7 @@ public class CaisseController {
     private VBox createArticleCard(Article article) {
         VBox card = new VBox(10);
         card.setPadding(new Insets(10));
-        card.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: white;");
+        card.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: white; -fx-cursor: hand;");
         card.setPrefSize(150, 200);
 
         ImageView imageView = new ImageView();
@@ -117,24 +112,37 @@ public class CaisseController {
         try {
             int quantity = Integer.parseInt(quantityField.getText());
             if (quantity <= 0) {
-                System.out.println("Quantité invalide : " + quantity);
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Ajout au panier");
+                alert.setHeaderText("Quantité invalide");
+                alert.setContentText("Veuillez entrer une quantité valide.");
+                alert.showAndWait();
                 return;
             }
 
             panier.add(article.getNom() + " - Quantité: " + quantity);
+
             panierArticles.add(new Article(article.getNom(), article.getReference(), article.getFamille(), article.getPrixUnitaire(), quantity, article.getImageUrl()));
             System.out.println("Article ajouté au panier : " + article.getNom() + ", Quantité : " + quantity);
             quantityField.clear();
 
         } catch (NumberFormatException e) {
-            System.out.println("Veuillez entrer une quantité valide.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Ajout au panier");
+            alert.setHeaderText("Quantité invalide");
+            alert.setContentText("Veuillez entrer une quantité valide.");
+            alert.showAndWait();
         }
     }
 
     @FXML
     private void validerPanier() {
         if (panierArticles.isEmpty()) {
-            System.out.println("Le panier est vide. Ajoutez des articles avant de valider.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Validation du panier");
+            alert.setHeaderText("Le panier est vide");
+            alert.setContentText("Veuillez ajouter des articles au panier avant de valider.");
+            alert.showAndWait();
             return;
         }
 
@@ -148,18 +156,14 @@ public class CaisseController {
             try {
                 int clientId = Integer.parseInt(clientIdString);
                 int transactionId = gestionFacturation.nouvelleTransaction(clientId, magasinId);
-                System.out.println("Nouvelle transaction créée, ID : " + transactionId);
 
                 for (Article article : panierArticles) {
                     gestionFacturation.acheterArticle(transactionId, article.getReference(), article.getStock());
-                    System.out.println("Article acheté : " + article.getNom() + ", Quantité : " + article.getStock());
                 }
 
                 panier.clear();
                 panierArticles.clear();
                 transactionStarted = false;
-                System.out.println("Transaction validée avec succès pour le client ID : " + clientId);
-
             } catch (NumberFormatException e) {
                 System.out.println("ID du client invalide.");
             } catch (RemoteException e) {

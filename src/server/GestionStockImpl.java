@@ -5,9 +5,7 @@ import common.GestionStock;
 
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,8 +94,13 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
                 stmt.setInt(2, magasinId);
                 stmt.executeUpdate();
             }
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new RemoteException("DuplicateEntryException: La référence de l'article existe déjà.");
+        } catch (SQLException e) {
+            throw new RemoteException("DatabaseException: Erreur lors de l'ajout de l'article.");
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RemoteException("UnexpectedException: Erreur inattendue.");
         }
     }
 
