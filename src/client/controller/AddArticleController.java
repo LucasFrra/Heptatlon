@@ -53,6 +53,7 @@ public class AddArticleController {
         selectedFile = fileChooser.showOpenDialog(new Stage());
         if (selectedFile != null) {
             imageUrlField.setText(selectedFile.getAbsolutePath());
+            showImageUploadSuccessAlert();
         }
     }
 
@@ -105,7 +106,6 @@ public class AddArticleController {
         }
     }
 
-
     private String uploadImage(File file) throws IOException {
         if (file == null) return null;
 
@@ -127,7 +127,18 @@ public class AddArticleController {
             }
         }
 
+        // Afficher une alerte de confirmation après le téléchargement de l'image
+        showImageUploadSuccessAlert();
+
         return "src/client/images/articles/" + file.getName();
+    }
+
+    private void showImageUploadSuccessAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Téléchargement d'image réussi");
+        alert.setHeaderText(null);
+        alert.setContentText("L'image a été téléchargée avec succès.");
+        alert.showAndWait();
     }
 
     @FXML

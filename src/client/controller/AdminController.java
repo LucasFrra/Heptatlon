@@ -1,20 +1,26 @@
 package client.controller;
 
+import common.GestionFacturation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+
 import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import common.GestionClient;
 import common.Client;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class AdminController {
@@ -22,12 +28,21 @@ public class AdminController {
     @FXML
     private ListView<String> clientListView;
 
+    @FXML
+    private DatePicker datePicker;
+
+    @FXML
+    private Label revenueLabel;
+
     private GestionClient gestionClient;
+
+    private GestionFacturation gestionFacturation;
 
     public AdminController() {
         try {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             gestionClient = (GestionClient) registry.lookup("GestionClient");
+            gestionFacturation = (GestionFacturation) registry.lookup("GestionFacturation");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +72,6 @@ public class AdminController {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     public void initialize() {
@@ -100,6 +114,18 @@ public class AdminController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @FXML
+    private void handleCalculateRevenue() {
+        try {
+            LocalDate date = datePicker.getValue();
+            double revenue = gestionFacturation.calculerChiffreAffaire(date);
+            revenueLabel.setText("Chiffre d'affaire: " + revenue);
+        } catch (Exception e) {
+            e.printStackTrace();
+            revenueLabel.setText("Erreur lors du calcul du chiffre d'affaire");
         }
     }
 }

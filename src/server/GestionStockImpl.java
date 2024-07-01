@@ -97,7 +97,7 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new RemoteException("DuplicateEntryException: La référence de l'article existe déjà.");
         } catch (SQLException e) {
-            throw new RemoteException("DatabaseException: Erreur lors de l'ajout de l'article.");
+            throw new RemoteException("DéatabaseException: Erreur lors de l'ajout de l'article.");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RemoteException("UnexpectedException: Erreur inattendue.");
