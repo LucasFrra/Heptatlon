@@ -116,7 +116,7 @@ public class FactureDetailsController {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/views/client_details.fxml"));
-            Scene scene = new Scene(loader.load());
+            Scene scene = new Scene(loader.load(), stage.getWidth(), stage.getHeight());
 
             ClientDetailsController controller = loader.getController();
             controller.setClient(clientName);

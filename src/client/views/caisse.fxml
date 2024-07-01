@@ -2,41 +2,29 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="client.controller.CaisseController" alignment="center" hgap="10" vgap="10" stylesheets="@../css/styles.css">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="client.controller.CaisseController" stylesheets="@../css/styles.css">
 
-    <Button text="Retour" onAction="#goToMain" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <!-- Partie gauche : FlowPane pour les cartes d'articles -->
+    <center>
+        <FlowPane fx:id="flowPane" prefWidth="700" />
+    </center>
 
-    <Label text="Client ID:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-    <TextField fx:id="clientIdField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    <!-- Partie droite : VBox pour la liste du panier et le bouton de validation -->
+    <right>
+        <VBox fx:id="panierBox" prefWidth="300">
+            <Text text="Panier" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #000;"/>
+            <ListView fx:id="panierListView" />
+            <TextField fx:id="quantityField" promptText="Quantité" />
+            <Button fx:id="validerButton" text="Valider" onAction="#validerPanier"/>
+        </VBox>
+    </right>
 
-    <Label text="Magasin ID:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-    <TextField fx:id="magasinIdField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-
-    <Button text="Commencer Transaction" GridPane.rowIndex="3" GridPane.columnIndex="0" onAction="#handleStartTransaction"/>
-    <Label fx:id="transactionLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-
-    <Label text="Article Réf:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-    <TextField fx:id="articleRefField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-
-    <Label text="Quantité:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-    <TextField fx:id="quantiteField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-
-    <Button text="Acheter Article" GridPane.rowIndex="6" GridPane.columnIndex="0" onAction="#handleBuyArticle"/>
-    <Label fx:id="achatStatusLabel" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-
-    <Button text="Consulter Facture" GridPane.rowIndex="7" GridPane.columnIndex="0" onAction="#handleConsultFacture"/>
-    <Label fx:id="factureLabel" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
-
-    <Label text="Date (YYYY-MM-DD):" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-    <TextField fx:id="dateField" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
-
-    <Button text="Calculer Chiffre d'Affaire" GridPane.rowIndex="9" GridPane.columnIndex="0" onAction="#handleCalculateRevenue"/>
-    <Label fx:id="revenueLabel" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
-</GridPane>
+</BorderPane>

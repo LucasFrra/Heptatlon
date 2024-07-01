@@ -19,7 +19,7 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
     @Override
     public Article consulterStock(String reference, int magasinId) throws RemoteException {
         try (Connection connection = DBConnection.getConnection()) {
-            String query = "SELECT a. reference, a.famille, a.prix_unitaire, a.url_image, s.stock_quantite " +
+            String query = "SELECT a.nom, a. reference, a.famille, a.prix_unitaire, a.url_image, s.stock_quantite " +
                     "FROM articles a JOIN stock s ON a.reference = s.article_ref " +
                     "WHERE a.reference = ? AND s.magasin_id = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
@@ -27,7 +27,7 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
             stmt.setInt(2, magasinId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Article(rs.getString("reference"), rs.getString("famille"), rs.getDouble("prix_unitaire"), rs.getInt("stock_quantite"), rs.getString("url_image"));
+                return new Article(rs.getString("nom"), rs.getString("reference"), rs.getString("famille"), rs.getDouble("prix_unitaire"), rs.getInt("stock_quantite"), rs.getString("url_image"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,5 +101,30 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
         }
     }
 
+    @Override
+    public List<Article> consulterArticles(int magasinId) throws RemoteException {
+        List<Article> articles = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            String query = "SELECT a.nom, a.reference, a.famille, a.prix_unitaire, a.url_image, s.stock_quantite " +
+                    "FROM articles a JOIN stock s ON a.reference = s.article_ref " +
+                    "WHERE s.magasin_id = ? AND s.stock_quantite > 0";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, magasinId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                articles.add(new Article(
+                        rs.getString("nom"),
+                        rs.getString("reference"),
+                        rs.getString("famille"),
+                        rs.getDouble("prix_unitaire"),
+                        rs.getInt("stock_quantite"),
+                        rs.getString("url_image")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return articles;
+    }
 
 }

@@ -1,107 +1,171 @@
 package client.controller;
 
+import common.Article;
 import common.GestionFacturation;
-import common.Facture;
-import javafx.event.ActionEvent;
+import common.GestionStock;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TextInputDialog;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.time.LocalDate;
+import java.io.File;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class CaisseController {
 
     @FXML
-    private TextField clientIdField;
+    private FlowPane flowPane;
     @FXML
-    private TextField magasinIdField;
+    private ListView<String> panierListView;
     @FXML
-    private TextField articleRefField;
+    private VBox panierBox;
     @FXML
-    private TextField quantiteField;
+    private TextField quantityField;
     @FXML
-    private TextField dateField;
-    @FXML
-    private Label transactionLabel;
-    @FXML
-    private Label achatStatusLabel;
-    @FXML
-    private Label factureLabel;
-    @FXML
-    private Label revenueLabel;
+    private Button validerButton;
 
+    private GestionStock gestionStock;
     private GestionFacturation gestionFacturation;
-    private int transactionId;
+    private ObservableList<String> panier;
+    private List<Article> panierArticles;
+    private boolean transactionStarted = false;
+    private int magasinId = 1; // Remplace par le véritable magasin ID
 
     public CaisseController() {
         try {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            gestionStock = (GestionStock) registry.lookup("GestionStock");
             gestionFacturation = (GestionFacturation) registry.lookup("GestionFacturation");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @FXML
-    private void goToMain(ActionEvent event) {
-        MainController mainController = new MainController();
-        mainController.goToMain(event);
+    public void initialize() {
+        panier = FXCollections.observableArrayList();
+        panierListView.setItems(panier);
+        panierArticles = new ArrayList<>();
+
+        flowPane.setHgap(10);
+        flowPane.setVgap(10);
+
+        loadArticles();
     }
 
-
-    @FXML
-    private void handleStartTransaction() {
+    private void loadArticles() {
         try {
-            int clientId = Integer.parseInt(clientIdField.getText());
-            int magasinId = Integer.parseInt(magasinIdField.getText());
-            transactionId = gestionFacturation.nouvelleTransaction(clientId, magasinId);
-            transactionLabel.setText("Transaction ID: " + transactionId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            transactionLabel.setText("Erreur lors de la création de la transaction");
-        }
-    }
+            List<Article> articles = gestionStock.consulterArticles(1);
 
-    @FXML
-    private void handleBuyArticle() {
-        try {
-            String reference = articleRefField.getText();
-            int quantite = Integer.parseInt(quantiteField.getText());
-            gestionFacturation.acheterArticle(transactionId, reference, quantite);
-            achatStatusLabel.setText("Article acheté: " + reference);
-        } catch (Exception e) {
-            e.printStackTrace();
-            achatStatusLabel.setText("Erreur lors de l'achat de l'article");
-        }
-    }
-
-    @FXML
-    private void handleConsultFacture() {
-        try {
-            int clientId = Integer.parseInt(clientIdField.getText());
-            Facture facture = gestionFacturation.consulterFacture(clientId);
-            if (facture != null) {
-                factureLabel.setText("Facture ID: " + facture.getId() + ", Total: " + facture.getTotal());
-            } else {
-                factureLabel.setText("Aucune facture trouvée pour le client ID: " + clientId);
+            for (Article article : articles) {
+                flowPane.getChildren().add(createArticleCard(article));
             }
-        } catch (Exception e) {
+            System.out.println("Articles chargés avec succès.");
+        } catch (RemoteException e) {
             e.printStackTrace();
-            factureLabel.setText("Erreur lors de la consultation de la facture");
+            System.out.println("Erreur lors du chargement des articles : " + e.getMessage());
+        }
+    }
+
+    private VBox createArticleCard(Article article) {
+        VBox card = new VBox(10);
+        card.setPadding(new Insets(10));
+        card.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: white;");
+        card.setPrefSize(150, 200);
+
+        ImageView imageView = new ImageView();
+        imageView.setFitHeight(100);
+        imageView.setFitWidth(100);
+        imageView.setPreserveRatio(true);
+        if (article.getImageUrl() != null && !article.getImageUrl().isEmpty()) {
+            File file = new File(article.getImageUrl());
+            if (file.exists()) {
+                Image image = new Image(file.toURI().toString());
+                imageView.setImage(image);
+            } else {
+                System.out.println("Image file does not exist: " + article.getImageUrl());
+            }
+        }
+
+        Label refLabel = new Label(article.getReference());
+        Label nameLabel = new Label(article.getNom());
+        Label priceLabel = new Label(String.format("Prix: %.2f €", article.getPrixUnitaire()));
+        Label stockLabel = new Label(String.format("Stock: %d", article.getStock()));
+
+        card.getChildren().addAll(imageView, refLabel, nameLabel, priceLabel, stockLabel);
+        card.setAlignment(Pos.CENTER);
+        card.setOnMouseClicked(event -> addToPanier(article));
+        return card;
+    }
+
+    private void addToPanier(Article article) {
+        try {
+            int quantity = Integer.parseInt(quantityField.getText());
+            if (quantity <= 0) {
+                System.out.println("Quantité invalide : " + quantity);
+                return;
+            }
+
+            panier.add(article.getNom() + " - Quantité: " + quantity);
+            panierArticles.add(new Article(article.getNom(), article.getReference(), article.getFamille(), article.getPrixUnitaire(), quantity, article.getImageUrl()));
+            System.out.println("Article ajouté au panier : " + article.getNom() + ", Quantité : " + quantity);
+            quantityField.clear();
+
+        } catch (NumberFormatException e) {
+            System.out.println("Veuillez entrer une quantité valide.");
         }
     }
 
     @FXML
-    private void handleCalculateRevenue() {
-        try {
-            LocalDate date = LocalDate.parse(dateField.getText());
-            double revenue = gestionFacturation.calculerChiffreAffaire(date);
-            revenueLabel.setText("Chiffre d'affaire: " + revenue);
-        } catch (Exception e) {
-            e.printStackTrace();
-            revenueLabel.setText("Erreur lors du calcul du chiffre d'affaire");
+    private void validerPanier() {
+        if (panierArticles.isEmpty()) {
+            System.out.println("Le panier est vide. Ajoutez des articles avant de valider.");
+            return;
         }
+
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Validation du panier");
+        dialog.setHeaderText("Veuillez entrer l'ID du client");
+        dialog.setContentText("ID du client:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(clientIdString -> {
+            try {
+                int clientId = Integer.parseInt(clientIdString);
+                int transactionId = gestionFacturation.nouvelleTransaction(clientId, magasinId);
+                System.out.println("Nouvelle transaction créée, ID : " + transactionId);
+
+                for (Article article : panierArticles) {
+                    gestionFacturation.acheterArticle(transactionId, article.getReference(), article.getStock());
+                    System.out.println("Article acheté : " + article.getNom() + ", Quantité : " + article.getStock());
+                }
+
+                panier.clear();
+                panierArticles.clear();
+                transactionStarted = false;
+                System.out.println("Transaction validée avec succès pour le client ID : " + clientId);
+
+            } catch (NumberFormatException e) {
+                System.out.println("ID du client invalide.");
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.out.println("Erreur lors de la validation de la transaction : " + e.getMessage());
+            }
+        });
     }
 }
