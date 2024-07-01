@@ -9,13 +9,15 @@ public class Article implements Serializable {
     private String famille;
     private double prixUnitaire;
     private int stock;
+    private String imageUrl;
 
     // Constructeurs, getters et setters
-    public Article(String reference, String famille, double prixUnitaire, int stock) {
+    public Article(String reference, String famille, double prixUnitaire, int stock, String imageUrl) {
         this.reference = reference;
         this.famille = famille;
         this.prixUnitaire = prixUnitaire;
         this.stock = stock;
+        this.imageUrl = imageUrl;
     }
 
     public String getReference() {
@@ -49,4 +51,8 @@ public class Article implements Serializable {
     public void setStock(int stock) {
         this.stock = stock;
     }
+
+    public String getImageUrl() {return imageUrl;}
+
+    public void setImageUrl(String imageUrl) {this.imageUrl = imageUrl;}
 }

@@ -3,6 +3,7 @@ package client.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
@@ -37,6 +38,26 @@ public class AdminController {
         MainController mainController = new MainController();
         mainController.goToMain(event);
     }
+
+    @FXML
+    public void goToAddArticle(ActionEvent event) {
+        loadScene(event, "/client/views/add_article.fxml");
+    }
+
+    private void loadScene(ActionEvent event, String fxmlFile) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
+            Scene scene = new Scene(root, width, height);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     public void initialize() {

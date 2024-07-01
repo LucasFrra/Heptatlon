@@ -26,6 +26,11 @@ public class MainController {
         loadScene(event, "/client/views/main.fxml");
     }
 
+    @FXML
+    public void goToStock(ActionEvent event) {
+        loadScene(event, "/client/views/stock.fxml");
+    }
+
     private void loadScene(ActionEvent event, String fxmlFile) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

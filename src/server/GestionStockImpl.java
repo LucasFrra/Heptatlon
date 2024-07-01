@@ -19,7 +19,7 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
     @Override
     public Article consulterStock(String reference, int magasinId) throws RemoteException {
         try (Connection connection = DBConnection.getConnection()) {
-            String query = "SELECT a. reference, a.famille, a.prix_unitaire, s.stock_quantite " +
+            String query = "SELECT a. reference, a.famille, a.prix_unitaire, a.url_image, s.stock_quantite " +
                     "FROM articles a JOIN stock s ON a.reference = s.article_ref " +
                     "WHERE a.reference = ? AND s.magasin_id = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
@@ -27,7 +27,7 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
             stmt.setInt(2, magasinId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Article(rs.getString("reference"), rs.getString("famille"), rs.getDouble("prix_unitaire"), rs.getInt("stock_quantite"));
+                return new Article(rs.getString("reference"), rs.getString("famille"), rs.getDouble("prix_unitaire"), rs.getInt("stock_quantite"), rs.getString("url_image"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,4 +68,38 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
             e.printStackTrace();
         }
     }
+    @Override
+    public void ajouterArticle(String nom, String reference, String famille, double prixUnitaire, String imageUrl) throws RemoteException {
+        try (Connection connection = DBConnection.getConnection()) {
+            // Ajouter l'article dans la table articles
+            String query = "INSERT INTO articles (nom, reference, famille, prix_unitaire, url_image) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, nom);
+            stmt.setString(2, reference);
+            stmt.setString(3, famille);
+            stmt.setDouble(4, prixUnitaire);
+            stmt.setString(5, imageUrl);
+            stmt.executeUpdate();
+
+            // Récupérer tous les magasins
+            query = "SELECT id FROM magasins";
+            stmt = connection.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Ajouter l'article avec un stock de 0 pour chaque magasin
+            query = "INSERT INTO stock (article_ref, magasin_id, stock_quantite) VALUES (?, ?, 0)";
+            stmt = connection.prepareStatement(query);
+
+            while (rs.next()) {
+                int magasinId = rs.getInt("id");
+                stmt.setString(1, reference);
+                stmt.setInt(2, magasinId);
+                stmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
