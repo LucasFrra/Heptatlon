@@ -59,6 +59,11 @@ public class AdminController {
         loadScene(event, "/client/views/add_article.fxml");
     }
 
+    @FXML
+    public void goToUpdateArticlePrice(ActionEvent event) {
+        loadScene(event, "/client/views/update_article_price.fxml");
+    }
+
     private void loadScene(ActionEvent event, String fxmlFile) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

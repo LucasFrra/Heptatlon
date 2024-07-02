@@ -4,6 +4,7 @@ import common.Article;
 import common.GestionStock;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -44,6 +45,12 @@ public class StockController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void goToMain(ActionEvent event) {
+        MainController mainController = new MainController();
+        mainController.goToMain(event);
     }
 
     public void initialize() {

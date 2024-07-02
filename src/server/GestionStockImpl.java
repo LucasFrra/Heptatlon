@@ -6,12 +6,18 @@ import common.GestionStock;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GestionStockImpl extends UnicastRemoteObject implements GestionStock {
+
+    private Queue<Article> priceUpdates;
+
     protected GestionStockImpl() throws RemoteException {
         super();
+        this.priceUpdates = new ConcurrentLinkedQueue<>();
+        schedulePriceUpdate();
     }
 
     @Override
@@ -131,6 +137,29 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
     }
 
     @Override
+    public List<Article> consulterArticles() throws RemoteException {
+        List<Article> articles = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            String query = "SELECT nom, reference, famille, prix_unitaire, url_image FROM articles";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                articles.add(new Article(
+                        rs.getString("nom"),
+                        rs.getString("reference"),
+                        rs.getString("famille"),
+                        rs.getDouble("prix_unitaire"),
+                        0,
+                        rs.getString("url_image")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return articles;
+    }
+
+    @Override
     public List<String> consulterFamilles() throws RemoteException {
         List<String> familles = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection()) {
@@ -144,6 +173,71 @@ public class GestionStockImpl extends UnicastRemoteObject implements GestionStoc
             e.printStackTrace();
         }
         return familles;
+    }
+
+
+
+    @Override
+    public void ajouterMiseAJourPrix(Article article) throws RemoteException {
+        priceUpdates.add(article);
+        System.out.println("Ajout de mise à jour de prix pour l'article : " + article.getReference() + " avec le nouveau prix : " + article.getPrixUnitaire());
+    }
+
+    @Override
+    public void appliquerMisesAJourPrix() throws RemoteException {
+        try (Connection connection = DBConnection.getConnection()) {
+            connection.setAutoCommit(false); // Début de transaction
+
+            String query = "UPDATE articles SET prix_unitaire = ? WHERE reference = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+
+            while (!priceUpdates.isEmpty()) {
+                Article update = priceUpdates.poll();
+                if (update != null) {
+                    stmt.setDouble(1, update.getPrixUnitaire());
+                    stmt.setString(2, update.getReference());
+                    stmt.executeUpdate();
+                }
+            }
+
+            connection.commit(); // Valide la transaction
+            System.out.println("Mises à jour des prix appliquées.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RemoteException("Erreur lors de la mise à jour des prix.", e);
+        }
+    }
+
+    private void schedulePriceUpdate() {
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    appliquerMisesAJourPrix();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        // Planifie la tâche pour qu'elle s'exécute tous les jours à 6 heures du matin
+        timer.scheduleAtFixedRate(task, getNextExecutionTime(6, 0), 24 * 60 * 60 * 1000);
+    }
+
+    private java.util.Date getNextExecutionTime(int hour, int minute) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        if (calendar.getTime().before(new java.util.Date())) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        return calendar.getTime();
     }
 
 }

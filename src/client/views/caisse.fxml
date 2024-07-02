@@ -19,8 +19,10 @@
 
     <!-- Partie haute : ComboBox pour sélectionner la famille d'articles -->
     <top>
+        <Button onAction="#goToMain" text="Retour" />
         <HBox alignment="CENTER">
             <children>
+                <Button onAction="#goToMain" text="Retour" />
                 <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;" text="Famille d'articles : " />
                 <ComboBox fx:id="familleComboBox" onAction="#rechercherArticlesParFamille" promptText="Sélectionner une famille">
                     <items>

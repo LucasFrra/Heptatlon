@@ -17,7 +17,7 @@ public class MainController {
     }
 
     @FXML
-    private void goToAdmin(ActionEvent event) {
+    public void goToAdmin(ActionEvent event) {
         loadScene(event, "/client/views/admin.fxml");
     }
 
