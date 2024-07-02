@@ -14,8 +14,8 @@
     <Button text="Retour" onAction="#goToAdmin" />
 
 
-    <Label fx:id="clientNameLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: white;"/>
-    <Label text="Factures" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: white;"/>
+    <Label fx:id="clientNameLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+    <Label text="Factures" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;"/>
     <ListView fx:id="factureListView"/>
     <Text style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: white;" text="Double-cliquez sur une facture pour visualiser le ticket de caisse"/>
 </VBox>
