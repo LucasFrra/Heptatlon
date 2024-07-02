@@ -134,18 +134,6 @@ public class GestionFacturationImpl extends UnicastRemoteObject implements Gesti
     }
 
     @Override
-    public void payerFacture(int clientId) throws RemoteException {
-        try (Connection connection = DBConnection.getConnection()) {
-            String query = "UPDATE factures SET mode_paiement = 'payé' WHERE client_id = ? AND mode_paiement = 'non payé'";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setInt(1, clientId);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public double calculerChiffreAffaire(LocalDate date) throws RemoteException {
         double total = 0;
         try (Connection connection = DBConnection.getConnection()) {
