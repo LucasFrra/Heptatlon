@@ -1,5 +1,6 @@
 package server;
 
+import common.GestionMagasin;
 import common.GestionStock;
 import common.GestionFacturation;
 import common.GestionClient;
@@ -13,11 +14,13 @@ public class Serveur {
             GestionStock gestionStock = new GestionStockImpl();
             GestionFacturation gestionFacturation = new GestionFacturationImpl();
             GestionClient gestionClient = new GestionClientImpl();
+            GestionMagasin gestionMagasin = new GestionMagasinImpl();
 
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.rebind("GestionStock", gestionStock);
             registry.rebind("GestionFacturation", gestionFacturation);
             registry.rebind("GestionClient", gestionClient);
+            registry.rebind("GestionMagasin", gestionMagasin);
 
             System.out.println("Serveur prêt.");
         } catch (Exception e) {

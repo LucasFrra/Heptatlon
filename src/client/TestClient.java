@@ -9,16 +9,26 @@ import javafx.stage.Stage;
 
 public class TestClient extends Application {
 
+    private static int magasinId;
+
+    public static void setMagasinId(int id) {
+        magasinId = id;
+    }
+
+    public static int getMagasinId() {
+        return magasinId;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("views/main.fxml"));
-        primaryStage.setTitle("Gestion de Stock et Facturation");
+        Parent root = FXMLLoader.load(getClass().getResource("views/magasin_login.fxml"));
+        primaryStage.setTitle("Connexion au Magasin");
 
         Image image = new Image(getClass().getResourceAsStream("images/logo.jpg"));
         primaryStage.getIcons().add(image);
 
         primaryStage.setScene(new Scene(root));
-        primaryStage.setMaximized(true);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

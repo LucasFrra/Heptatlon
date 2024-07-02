@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.TestClient;
 import common.Article;
 import common.GestionStock;
 import javafx.collections.FXCollections;
@@ -36,7 +37,7 @@ public class StockController {
     private Button modifyButton;
 
     private GestionStock gestionStock;
-    private int magasinId = 1;
+    private int magasinId;
 
     public StockController() {
         try {
@@ -54,6 +55,7 @@ public class StockController {
     }
 
     public void initialize() {
+        this.magasinId = TestClient.getMagasinId();
         flowPane.setHgap(10);
         flowPane.setVgap(10);
         flowPane.setPadding(new Insets(10));

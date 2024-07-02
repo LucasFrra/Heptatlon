@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.TestClient;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,13 @@ import javafx.scene.Node;
 import javafx.event.ActionEvent;
 
 public class MainController {
+
+    private int magasinId;
+
+    @FXML
+    public void initialize() {
+        this.magasinId = TestClient.getMagasinId();
+    }
 
     @FXML
     private void goToCaisse(ActionEvent event) {

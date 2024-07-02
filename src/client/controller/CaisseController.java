@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.TestClient;
 import common.Article;
 import common.Client;
 import common.GestionFacturation;
@@ -48,7 +49,7 @@ public class CaisseController {
     private ObservableList<String> panier;
     private List<Article> panierArticles;
     private boolean transactionStarted = false;
-    private int magasinId = 1;
+    private int magasinId;
 
     public CaisseController() {
         try {
@@ -68,6 +69,8 @@ public class CaisseController {
     }
 
     public void initialize() {
+        this.magasinId = TestClient.getMagasinId();
+        System.out.println("Magasin ID dans SomeOtherController: " + this.magasinId);
         panier = FXCollections.observableArrayList();
         panierListView.setItems(panier);
         panierArticles = new ArrayList<>();
@@ -82,7 +85,7 @@ public class CaisseController {
 
     private void loadArticles() {
         try {
-            List<Article> articles = gestionStock.consulterArticles(1);
+            List<Article> articles = gestionStock.consulterArticles(magasinId);
             updateFlowPaneWithArticles(articles);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -92,8 +95,8 @@ public class CaisseController {
 
     private void loadFamilles() {
         try {
-            List<String> familles = gestionStock.consulterFamilles(); // Nouvelle méthode à implémenter
-            familles.add(0, "Tous les articles"); // Ajouter "Tous les articles" au début de la liste
+            List<String> familles = gestionStock.consulterFamilles();
+            familles.add(0, "Tous les articles");
             familleComboBox.setItems(FXCollections.observableArrayList(familles));
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -303,6 +306,7 @@ public class CaisseController {
             alert.setHeaderText("Transaction validée");
             alert.setContentText("La transaction a été validée avec succès.");
             alert.showAndWait();
+            loadArticles();
         } catch (RemoteException e) {
             e.printStackTrace();
             System.out.println("Erreur lors de la validation de la transaction : " + e.getMessage());
