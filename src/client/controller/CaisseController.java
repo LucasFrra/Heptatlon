@@ -70,7 +70,6 @@ public class CaisseController {
 
     public void initialize() {
         this.magasinId = TestClient.getMagasinId();
-        System.out.println("Magasin ID dans SomeOtherController: " + this.magasinId);
         panier = FXCollections.observableArrayList();
         panierListView.setItems(panier);
         panierArticles = new ArrayList<>();
@@ -162,7 +161,6 @@ public class CaisseController {
             panier.add(article.getNom() + " - Quantité: " + quantity);
 
             panierArticles.add(new Article(article.getNom(), article.getReference(), article.getFamille(), article.getPrixUnitaire(), quantity, article.getImageUrl()));
-            System.out.println("Article ajouté au panier : " + article.getNom() + ", Quantité : " + quantity);
             quantityField.clear();
 
         } catch (NumberFormatException e) {

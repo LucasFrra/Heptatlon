@@ -63,7 +63,6 @@ public class MagasinLoginController {
                 primaryStage.show();
                 ((Stage) nomUtilisateurField.getScene().getWindow()).close();
             } else {
-                System.out.println("Nom d'utilisateur ou mot de passe incorrect");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur de connexion");
                 alert.setHeaderText("Nom d'utilisateur ou mot de passe incorrect");

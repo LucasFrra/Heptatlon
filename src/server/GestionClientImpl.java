@@ -64,7 +64,6 @@ public class GestionClientImpl extends UnicastRemoteObject implements GestionCli
             while (rs.next()) {
                 clients.add(new Client(rs.getInt("id"), rs.getString("nom"), rs.getString("email")));
             }
-            System.out.println("Number of clients retrieved: " + clients.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
