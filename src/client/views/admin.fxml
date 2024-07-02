@@ -31,6 +31,7 @@
                 <children>
                     <Text style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: white;" text="Liste des clients" />
                     <ListView fx:id="clientListView" />
+                    <Text style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: white;" text="Double-cliquez sur un client pour visualiser ses factures" />
                 </children>
             </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="10.0">

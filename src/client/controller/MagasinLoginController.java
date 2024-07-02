@@ -26,17 +26,26 @@ public class MagasinLoginController {
 
     public MagasinLoginController() throws InterruptedException {
         boolean connected = false;
-        while (!connected) {
+        long startTime = System.currentTimeMillis();
+        long maxDuration = 60000; // 1 minute en millisecondes
+
+        while (!connected && (System.currentTimeMillis() - startTime) < maxDuration) {
             try {
                 Registry registry = LocateRegistry.getRegistry("localhost", 1099);
                 gestionMagasin = (GestionMagasin) registry.lookup("GestionMagasin");
                 connected = true;
             } catch (Exception e) {
-                System.out.println("Serveur RMI non prêt, nouvelle tentative dans 1 seconde...");
+                System.out.println("Serveur RMI non prêt, nouvelle tentative en cours, il reste " + ((maxDuration - (System.currentTimeMillis() - startTime)) / 1000) + " secondes");
                 Thread.sleep(1000); // Attendre 1 seconde avant de réessayer
             }
         }
+
+        if (!connected) {
+            System.out.println("Impossible de se connecter au serveur RMI après 1 minute.");
+            System.exit(1);
+        }
     }
+
 
     @FXML
     private void handleLogin() {
