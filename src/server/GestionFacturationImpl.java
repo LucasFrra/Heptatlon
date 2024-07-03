@@ -134,12 +134,13 @@ public class GestionFacturationImpl extends UnicastRemoteObject implements Gesti
     }
 
     @Override
-    public double calculerChiffreAffaire(LocalDate date) throws RemoteException {
+    public double calculerChiffreAffaire(LocalDate date, int magasinId) throws RemoteException {
         double total = 0;
         try (Connection connection = DBConnection.getConnection()) {
-            String query = "SELECT SUM(total) AS total FROM factures WHERE date_facturation = ?";
+            String query = "SELECT SUM(total) AS total FROM factures WHERE date_facturation = ? AND magasin_id = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setDate(1, java.sql.Date.valueOf(date));
+            stmt.setInt(2, magasinId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 total = rs.getDouble("total");

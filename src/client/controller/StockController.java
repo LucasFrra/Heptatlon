@@ -205,7 +205,7 @@ public class StockController {
     private void handleCalculateRevenue() {
         try {
             LocalDate date = datePicker.getValue();
-            double revenue = gestionFacturation.calculerChiffreAffaire(date);
+            double revenue = gestionFacturation.calculerChiffreAffaire(date, magasinId);
             revenueLabel.setText("Chiffre d'affaire: " + revenue);
         } catch (Exception e) {
             e.printStackTrace();
