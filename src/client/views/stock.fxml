@@ -8,40 +8,74 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controller.StockController">
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.DatePicker?>
 
+<VBox alignment="CENTER" prefHeight="533.0" prefWidth="661.0" spacing="20" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controller.StockController">
+<padding>
+    <Insets bottom="20" left="20" right="20" top="20" />
+</padding>
+
+<Button onAction="#goToMain" text="Retour" />
+<GridPane alignment="TOP_CENTER" prefHeight="600.0">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="449.39996337890625" minWidth="10.0" prefWidth="427.79998779296875" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="306.20001220703125" minWidth="10.0" prefWidth="194.20001220703125" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
     <children>
-        <VBox alignment="CENTER">
-            <Button onAction="#goToMain" text="Retour" />
+        <VBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
             <children>
-            <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;" text="Référence de l'article" />
+                <Text style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: white;" text="Liste des clients" />
+                <ListView fx:id="clientListView" />
+                <Text style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-fill: white;" text="Double-cliquez sur un client pour visualiser ses factures" />
+            </children>
+        </VBox>
+        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+            <children>
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;" text="Référence de l'article" />
                 <HBox alignment="CENTER">
                     <TextField fx:id="searchField" prefWidth="200.0" promptText="Référence de l'article">
-                  <HBox.margin>
-                     <Insets right="10.0" />
-                  </HBox.margin></TextField>
+                        <HBox.margin>
+                            <Insets right="10.0" />
+                        </HBox.margin></TextField>
                     <Button fx:id="searchButton" text="Rechercher" />
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
                 </HBox>
-              <FlowPane fx:id="flowPane" alignment="CENTER" columnHalignment="CENTER" />
-            <VBox alignment="CENTER">
-               <children>
-                      <HBox alignment="CENTER">
-                          <TextField fx:id="quantityField" prefWidth="200.0" promptText="Quantité supplémentaire" />
-                      </HBox>
-                  <HBox alignment="CENTER">
-                     <children>
-                        <Button fx:id="modifyButton" text="Ajouter quantité" />
-                     </children>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets top="50.0" />
-               </VBox.margin>
-            </VBox>
+                <FlowPane fx:id="flowPane" alignment="CENTER" columnHalignment="CENTER" />
+                <VBox alignment="CENTER">
+                    <children>
+                        <HBox alignment="CENTER">
+                            <TextField fx:id="quantityField" prefWidth="200.0" promptText="Quantité supplémentaire" />
+                        </HBox>
+                        <HBox alignment="CENTER">
+                            <children>
+                                <Button fx:id="modifyButton" text="Ajouter quantité" />
+                            </children>
+                        </HBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="50.0" />
+                    </VBox.margin>
+                </VBox>
+                <HBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="8">
+                    <children>
+                        <DatePicker fx:id="datePicker" />
+                        <Button onAction="#handleCalculateRevenue" text="Calculer CA" />
+                    </children>
+                </HBox>
+                <Label fx:id="revenueLabel" styleClass="form-label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             </children>
         </VBox>
     </children>
+</GridPane>
 </VBox>
+

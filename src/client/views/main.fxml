@@ -37,7 +37,7 @@
             <GridPane.margin>
                <Insets right="20.0" />
             </GridPane.margin></Button>
-          <Button onAction="#goToStock" text="Stock" GridPane.columnIndex="1" GridPane.rowIndex="1"></Button>
+          <Button onAction="#goToStock" text="Magasin" GridPane.columnIndex="1" GridPane.rowIndex="1"></Button>
           <Button onAction="#goToAdmin" text="Admin" GridPane.columnIndex="2" GridPane.rowIndex="1">
             <GridPane.margin>
                <Insets left="20.0" />

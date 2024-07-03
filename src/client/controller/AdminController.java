@@ -26,29 +26,6 @@ import java.util.List;
 public class AdminController {
 
     @FXML
-    private ListView<String> clientListView;
-
-    @FXML
-    private DatePicker datePicker;
-
-    @FXML
-    private Label revenueLabel;
-
-    private GestionClient gestionClient;
-
-    private GestionFacturation gestionFacturation;
-
-    public AdminController() {
-        try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            gestionClient = (GestionClient) registry.lookup("GestionClient");
-            gestionFacturation = (GestionFacturation) registry.lookup("GestionFacturation");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     private void goToMain(ActionEvent event) {
         MainController mainController = new MainController();
         mainController.goToMain(event);
@@ -78,59 +55,4 @@ public class AdminController {
         }
     }
 
-    @FXML
-    public void initialize() {
-        loadClients();
-        clientListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        // Ajouter un écouteur d'événements pour double-clic
-        clientListView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                handleViewClientDetails(event);
-            }
-        });
-    }
-
-    private void loadClients() {
-        try {
-            List<Client> clients = gestionClient.listerClients();
-            for (Client client : clients) {
-                clientListView.getItems().add(client.getNom());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void handleViewClientDetails(MouseEvent event) {
-        String selectedClient = clientListView.getSelectionModel().getSelectedItem();
-        if (selectedClient != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/views/client_details.fxml"));
-                Stage stage = (Stage) clientListView.getScene().getWindow();
-                double width = stage.getWidth();
-                double height = stage.getHeight();
-                Scene scene = new Scene(loader.load(), width, height);
-
-                ClientDetailsController controller = loader.getController();
-                controller.setClient(selectedClient);
-
-                stage.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @FXML
-    private void handleCalculateRevenue() {
-        try {
-            LocalDate date = datePicker.getValue();
-            double revenue = gestionFacturation.calculerChiffreAffaire(date);
-            revenueLabel.setText("Chiffre d'affaire: " + revenue);
-        } catch (Exception e) {
-            e.printStackTrace();
-            revenueLabel.setText("Erreur lors du calcul du chiffre d'affaire");
-        }
-    }
 }
