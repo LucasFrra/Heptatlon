@@ -61,7 +61,14 @@ public class StockController {
             gestionClient = (GestionClient) registry.lookup("GestionClient");
             gestionFacturation = (GestionFacturation) registry.lookup("GestionFacturation");
         } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Erreur lors de la connexion au serveur.");
+            alert.showAndWait();
             e.printStackTrace();
+            throw new RuntimeException(e);
+
         }
     }
 

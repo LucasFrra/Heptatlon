@@ -58,7 +58,13 @@ public class CaisseController {
             gestionFacturation = (GestionFacturation) registry.lookup("GestionFacturation");
             gestionClient = (GestionClient) registry.lookup("GestionClient");
         } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Erreur lors de la connexion au serveur.");
+            alert.showAndWait();
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -255,7 +261,8 @@ public class CaisseController {
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == okButtonType) {
-                return new Client(0, nameField.getText(), emailField.getText());
+                String email = emailField.getText().isEmpty() ? null : emailField.getText();
+                return new Client(0, nameField.getText(), email);
             }
             return null;
         });

@@ -6,10 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.scene.Node;
@@ -52,7 +49,13 @@ public class FactureDetailsController {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             gestionFacturation = (GestionFacturation) registry.lookup("GestionFacturation");
         } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Erreur lors de la connexion au serveur.");
+            alert.showAndWait();
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

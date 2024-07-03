@@ -29,10 +29,16 @@ public class UpdateArticlePriceController {
 
     public UpdateArticlePriceController() {
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            Registry registry = LocateRegistry.getRegistry("localhost", 1010);
             gestionStock = (GestionStock) registry.lookup("GestionStock");
         } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Erreur lors de la connexion au serveur.");
+            alert.showAndWait();
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
         articlesModifies = new ArrayList<>();
     }
