@@ -15,7 +15,7 @@ import javafx.scene.Scene;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class MagasinLoginController {
+public class CentralLoginController {
 
     @FXML
     private TextField nomUtilisateurField;
@@ -25,14 +25,14 @@ public class MagasinLoginController {
 
     private GestionMagasin gestionMagasin;
 
-    public MagasinLoginController() throws InterruptedException {
+    public CentralLoginController() throws InterruptedException {
         boolean connected = false;
         long startTime = System.currentTimeMillis();
         long maxDuration = 30000; // 30 secondes en millisecondes
 
         while (!connected && (System.currentTimeMillis() - startTime) < maxDuration) {
             try {
-                Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+                Registry registry = LocateRegistry.getRegistry("localhost", 1010);
                 gestionMagasin = (GestionMagasin) registry.lookup("GestionMagasin");
                 connected = true;
             } catch (Exception e) {

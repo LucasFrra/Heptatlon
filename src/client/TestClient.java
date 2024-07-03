@@ -21,8 +21,8 @@ public class TestClient extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("views/magasin_login.fxml"));
-        primaryStage.setTitle("Connexion au Magasin");
+        Parent root = FXMLLoader.load(getClass().getResource("views/server_selection.fxml"));
+        primaryStage.setTitle("Sélection du Serveur");
 
         Image image = new Image(getClass().getResourceAsStream("images/logo.jpg"));
         primaryStage.getIcons().add(image);
